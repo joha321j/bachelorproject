@@ -19,7 +19,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{1BADFD9D-9261-4779-8ADD-85930ABEB4CB}"
 	ProjectSection(SolutionItems) = preProject
 		misc\watchers.xml = misc\watchers.xml
-		tailwind.config.js = tailwind.config.js
 		.gitignore = .gitignore
 		README.md = README.md
 	EndProjectSection

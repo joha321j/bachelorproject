@@ -18,15 +18,11 @@
   </Target>
 
   <Target Name="BuildCSS-Prod" BeforeTargets="Compile">
-    <Exec EnvironmentVariables="NODE_ENV=production"
-        Command="npx tailwindcss -c ../../tailwind.config.js -i wwwroot/app.css -o wwwroot/compiled.css --minify"
-        Condition=" '$(Configuration)' == 'Release' " />
+    <Exec EnvironmentVariables="NODE_ENV=production" Command="npx tailwindcss -c wwwroot/tailwind.config.js -i wwwroot/app.css -o wwwroot/compiled.css --minify" Condition=" '$(Configuration)' == 'Release' " />
   </Target>
 
   <Target Name="BuildCSS-Dev" BeforeTargets="Compile">
-    <Exec EnvironmentVariables="NODE_ENV=development"
-        Command="npx tailwindcss -c ../../tailwind.config.js -i wwwroot/app.css -o wwwroot/compiled.css"
-        Condition=" '$(Configuration)' == 'Debug' " />
+    <Exec EnvironmentVariables="NODE_ENV=development" Command="npx tailwindcss -c wwwroot/tailwind.config.js -i wwwroot/app.css -o wwwroot/compiled.css" Condition=" '$(Configuration)' == 'Debug' " />
   </Target>
 
 </Project>
