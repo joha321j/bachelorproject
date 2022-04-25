@@ -10,4 +10,8 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+  </ItemGroup>
+
 </Project>

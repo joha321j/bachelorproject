@@ -1,0 +1,11 @@
+name: meta-datasources
+
+services:
+  - name: Backend
+    project: src/DatasourceGraphApi/DatasourceGraphApi.csproj
+    tags: ["backend"]
+    
+  - name: Frontend
+    project: src/DatasourceApp/DatasourceApp.csproj
+    tags: ["frontend"]
+    

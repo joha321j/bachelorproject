@@ -1,7 +1,82 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components
+@using ApplicationCore.Models
+@using DatasourceApp.Components
+@using DatasourceApp.Services
+@using Serilog
 
-<PageTitle>meta - OKR Datasources</PageTitle>
+@inject IDatasourceFetcher DatasourceFetcher
+
+<PageTitle>Meta - OKR Datasources</PageTitle>
 
 
+<h4>New Datasource</h4>
 
-Welcome to meta - OKR Datasource
+@if (DatasourceTypes is not null)
+{
+    <EditForm Model="NewDatasource" OnValidSubmit="OnValidSubmit">
+        <div class="input-area mt-4">
+            <label for="DatasourceName">Name</label>
+            <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="NewDatasource.Name"/>
+        </div>
+    
+        <div class="input-area mt-4">
+            <label for="DatasourceType">Type</label>
+            <InputSelect class="field border-primary p-4" id="DatasourceType" @bind-Value="SelectedDatasourceTypeId">
+                @if (DatasourceTypes is not null)
+                {
+                    <option value="0" selected>Select a datasource type...</option>
+                    @foreach (var type in DatasourceTypes)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+        
+        @if ((InputFieldsFrom = Fields()) is not null)
+        {
+            @foreach (var field in InputFieldsFrom)
+            {
+                <div class="input-area mt-4">
+                    <label for="@field.Name">@field.Name</label>
+                    <InputText class="field border-primary p-4" id="@field.Name" Required="@field.Required" @bind-Value="field.Value" />
+                </div>
+            }
+
+        }
+        <div class="float-right mt-4">
+            <button class="btn-primary">Add Datasource</button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    private List<DatasourceType>? DatasourceTypes { get; set; }
+
+    private int SelectedDatasourceTypeId { get; set; }
+
+    private List<InputField>? InputFieldsFrom { get; set; }
+
+    private List<InputField>? Fields()
+    {
+        return DatasourceTypes?.FirstOrDefault(f => f.Id == SelectedDatasourceTypeId)?.Fields;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var datasourceTypes = await DatasourceFetcher.FetchAllTypes();
+        // ArgumentNullException.ThrowIfNull(datasourceTypes, "datasourceTypes != null");
+        DatasourceTypes = datasourceTypes;
+
+        await base.OnInitializedAsync();
+    }
+
+    private static void OnValidSubmit()
+    {
+        
+    }
+
+    private Datasource NewDatasource { get; set; } = new();
+
+}

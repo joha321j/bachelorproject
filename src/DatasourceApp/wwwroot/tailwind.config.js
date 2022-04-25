@@ -1,11 +1,12 @@
 module.exports = {
     mode: 'jit',
     content: [
-        './Components/*.razor',
-        './Pages/*.razor',
-        './Shared/*.razor',
-        'wwwroot/index.html',
-        './App.razor',
+        '**/Components/*.razor',
+        '**/Pages/*.razor',
+        '**/Shared/*.razor',
+        '**/wwwroot/index.html',
+        '**/App.razor',
+        '**/wwwroot/app.css',
     ],
     theme: {
 
