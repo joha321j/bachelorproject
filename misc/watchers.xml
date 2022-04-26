@@ -1,6 +1,6 @@
 <TaskOptions>
   <TaskOptions>
-    <option name="arguments" value="-i ./src/DatasourceApp/wwwroot/app.css -o ./src/DatasourceApp/wwwroot/compiled.css" />
+    <option name="arguments" value="-c ./src/DatasourceApp/wwwroot/tailwind.config.js -i ./src/DatasourceApp/wwwroot/app.css -o ./src/DatasourceApp/wwwroot/compiled.css" />
     <option name="checkSyntaxErrors" value="true" />
     <option name="description" />
     <option name="exitCodeBehavior" value="ERROR" />
@@ -20,7 +20,7 @@
     <envs />
   </TaskOptions>
   <TaskOptions>
-    <option name="arguments" value="-i ./src/DatasourceApp/wwwroot/app.css -o ./src/DatasourceApp/wwwroot/compiled.css" />
+    <option name="arguments" value="-c ./src/DatasourceApp/wwwroot/tailwind.config.js -i ./src/DatasourceApp/wwwroot/app.css -o ./src/DatasourceApp/wwwroot/compiled.css" />
     <option name="checkSyntaxErrors" value="true" />
     <option name="description" />
     <option name="exitCodeBehavior" value="ERROR" />

@@ -20,6 +20,23 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddScoped<IDatasourceFetcher, FakeDatasourceFetcher>();
+builder.Services
+    .AddScoped<IHttpService, HttpService>()
+    .AddScoped<ILocalStorageService, LocalStorageService>();
+
+builder.Services.AddScoped(serviceProvider =>
+{
+    var apiUrl = new Uri(builder.Configuration["ApiUrl"]
+                         ?? throw new ArgumentNullException());
+
+    if (builder.Configuration["UseFakeBackend"] != "true")
+        return new HttpClient { BaseAddress = apiUrl };
+    
+    var fakeBackendHandler = new FakeBackendHandler(serviceProvider.GetService<ILocalStorageService>()
+                                                    ?? throw new ArgumentNullException());
+    
+    return new HttpClient(fakeBackendHandler) { BaseAddress = apiUrl };
+
+});
 
 await builder.Build().RunAsync();

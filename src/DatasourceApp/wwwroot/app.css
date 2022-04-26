@@ -49,6 +49,7 @@
     border-solid
     border
     rounded
+    bg-white
     border-base-300
     hover:border-brand-500
     focus:outline outline-4 outline-brand-200
