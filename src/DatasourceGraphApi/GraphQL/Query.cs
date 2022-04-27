@@ -2,12 +2,15 @@
 
 public class Query
 {
-    private readonly ResolverClient _resolverClient;
+    private readonly ResolverClient _client;
 
-    public Query(ResolverClient resolverClient)
+    public Query(ResolverClient client)
     {
-        _resolverClient = resolverClient;
+        _client = client;
     }
 
-    public Book GetBook() => _resolverClient.Resolve<Book>("", "");
+    public async Task<List<Book>?> GetBooks()
+    {
+        return await _client.Resolve<List<Book>>("abetauh", "atoeuha");
+    }
 }   

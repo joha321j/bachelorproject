@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.JSInterop;
 
-namespace DatasourceApp.Services;
+namespace DataFakingLibrary;
 
 public interface ILocalStorageService
 {

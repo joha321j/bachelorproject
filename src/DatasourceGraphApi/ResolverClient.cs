@@ -9,9 +9,10 @@ public class ResolverClient
         _clientFactory = clientFactory;
     }
 
-    public T Resolve<T>(string appId, string query) where T : new()
+    public async Task<T?> Resolve<T>(string appId, string query)
     {
-        var client = _clientFactory.CreateClient();
-        return new T();
+        var path = $"v1/apps/{appId}/query?query={query}";
+        var client = _clientFactory.CreateClient("AppInsights");
+        return await client.GetFromJsonAsync<T>(path);
     }
 }

@@ -1,24 +1,12 @@
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using System.Text.Json;
-using ApplicationCore.Models;
 using ApplicationCore.Services;
-using DatasourceGraphApi;
 
 namespace DataFakingLibrary;
 
-public class FakeBackendHandler : HttpClientHandler
+public class FakeInsightHandler : HttpClientHandler
 {
-    private readonly ILocalStorageService _localStorageService;
-
-    private List<DataSource> _dataSources;
-
-    public FakeBackendHandler(ILocalStorageService localStorageService)
-    {
-        _localStorageService = localStorageService;
-        _dataSources = new List<DataSource>();
-    }
-
     protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
@@ -33,19 +21,21 @@ public class FakeBackendHandler : HttpClientHandler
         var method = request.Method;
         var path = request.RequestUri?.AbsolutePath;
 
-        if (path == "datasource" && method == HttpMethod.Get)
-            return await GetAllDataSources();
+        var paths = path?.Split('/');
+
+        if (paths != null && paths.Contains("v1") && paths.Contains("apps") && method == HttpMethod.Get)
+            return await GetAppInsightsData();
 
         return await base.SendAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> GetAllDataSources()
+    private async Task<HttpResponseMessage> GetAppInsightsData()
     {
-        var dataSources = await _localStorageService.GetItem<List<DataSource>>("datasources")
-                          ?? FakeData.DataSources;
+        var data = FakeData.Books;
 
-        return await Ok(dataSources);
+        return await Ok(data);
     }
+    
 
     private async Task<HttpResponseMessage> Ok(object? body = null)
     {

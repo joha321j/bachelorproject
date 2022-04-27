@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
 using ApplicationCore.Models;
+using DatasourceGraphApi;
 
 namespace ApplicationCore.Services;
 
 public static class FakeData
 {
-    public static List<DataSource> Datasources => new()
+    public static List<DataSource> DataSources => new()
     {
         new DataSource
         {
@@ -27,5 +28,17 @@ public static class FakeData
         }
     };
 
-    public static string DatasourcesJsonText => JsonSerializer.Serialize(Datasources);
+    public static List<Book> Books => new()
+    {
+        new Book
+        {
+            Title = "Git Good",
+            Author = new Author
+            {
+                Name = "Mike Meldgaard"
+            }
+        }
+    };
+
+    public static string DatasourcesJsonText => JsonSerializer.Serialize(DataSources);
 }
