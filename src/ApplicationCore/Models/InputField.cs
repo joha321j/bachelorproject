@@ -2,17 +2,42 @@
 
 namespace ApplicationCore.Models;
 
-public class InputRegion
+public abstract class InputType
 {
-    public string Name { get; set; } = null!;
+    public virtual int Id { get; set; }
+    public virtual string Name { get; set; } = null!;
+}
+
+public class InputSection : InputType
+{
+    [JsonPropertyName("inputSectionId")]
+    public override int Id { get; set; }
+    
+    [JsonPropertyName("inputSectionName")]
+    public override string Name { get; set; } = null!;
+    
+    [JsonPropertyName("inputSectionChoice")]
     public InputChoice? Choice { get; set; }
+
+    [JsonPropertyName("inputSectionChoicesName")]
+    public string ChoicesName { get; set; } = null!;
+    
+    [JsonPropertyName("inputSectionChoices")]
     public List<InputChoice> Choices { get; set; } = null!;
+    
+    [JsonPropertyName("inputSectionRequired")]
     public bool Required { get; set; }
 }
 
-public class InputChoice
+public class InputChoice : InputType
 {
-    public string Name { get; set; } = null!;
+    [JsonPropertyName("inputChoiceId")]
+    public override int Id { get; set; }
+    
+    [JsonPropertyName("inputChoiceName")]
+    public override string Name { get; set; } = null!;
+    
+    [JsonPropertyName("inputChoiceFields")]
     public List<InputField> Fields { get; set; } = null!;
 
     public override string ToString()
@@ -27,13 +52,16 @@ public class InputChoice
     }
 }
 
-public class InputField
+public class InputField : InputType
 {
+    [JsonPropertyName("inputFieldId")]
+    public override int Id { get; set; }
+    
     [JsonPropertyName("inputFieldName")]
-    public string Name { get; set; } = null!;
+    public override string Name { get; set; } = null!;
     
     [JsonPropertyName("inputFieldType")]
-    public string InputType { get; set; } = null!;
+    public string InputType { get; set; } = "text";
     
     [JsonPropertyName("inputFieldRequired")]
     public bool Required { get; set; }

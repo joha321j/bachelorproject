@@ -12,7 +12,7 @@ public interface ILocalStorageService
 
 public class LocalStorageService : ILocalStorageService
 {
-    private IJSRuntime _jsRuntime;
+    private readonly IJSRuntime _jsRuntime;
 
     public LocalStorageService(IJSRuntime jsRuntime)
     {
@@ -21,8 +21,8 @@ public class LocalStorageService : ILocalStorageService
 
     public async Task<T?> GetItem<T>(string key)
     {
-        var json = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
-        return JsonSerializer.Deserialize<T>(json);
+        var json = await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", key);
+        return json is null ? default : JsonSerializer.Deserialize<T>(json);
     }
     
     public async Task SetItem<T>(string key, T value)

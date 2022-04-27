@@ -5,21 +5,22 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using Serilog;
 
 namespace DatasourceApp.Services;
 
 public interface IHttpService
 {
-    Task<T?> Get<T>(string uri);
+    Task<T?> GetAsync<T>(string uri);
     
-    Task Post(string uri, object value);
-    Task<T?> Post<T>(string uri, object value);
+    Task PostAsync(string uri, object value);
+    Task<T?> PostAsync<T>(string uri, object value);
     
-    Task Put(string uri, object value);
-    Task<T?> Put<T>(string uri, object value);
+    Task PutAsync(string uri, object value);
+    Task<T?> PutAsync<T>(string uri, object value);
     
-    Task Delete(string uri);
-    Task<T?> Delete<T>(string uri);
+    Task DeleteAsync(string uri);
+    Task<T?> DeleteAsync<T>(string uri);
 }
 
 public class HttpService : IHttpService
@@ -41,16 +42,16 @@ public class HttpService : IHttpService
         _configuration = configuration;
     }
 
-    public async Task<T?> Get<T>(string uri)
+    public async Task<T?> GetAsync<T>(string uri)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, uri);
-        return await SendRequest<T>(request);
+        return await SendRequestAsync<T>(request);
     }
 
-    public async Task Post(string uri, object value)
+    public async Task PostAsync(string uri, object value)
     {
         var request = CreateRequest(HttpMethod.Post, uri, value);
-        await SendRequest(request);
+        await SendRequestAsync(request);
     }
 
     private HttpRequestMessage CreateRequest(HttpMethod method, string uri, object? value = null)
@@ -63,37 +64,37 @@ public class HttpService : IHttpService
         return request;
     }
 
-    public async Task<T?> Post<T>(string uri, object value)
+    public async Task<T?> PostAsync<T>(string uri, object value)
     {
         var request = CreateRequest(HttpMethod.Post, uri, value);
-        return await SendRequest<T>(request);
+        return await SendRequestAsync<T>(request);
     }
 
-    public async Task Put(string uri, object value)
+    public async Task PutAsync(string uri, object value)
     {
         var request = CreateRequest(HttpMethod.Put, uri, value);
-        await SendRequest(request);
+        await SendRequestAsync(request);
     }
 
-    public async Task<T?> Put<T>(string uri, object value)
+    public async Task<T?> PutAsync<T>(string uri, object value)
     {
         var request = CreateRequest(HttpMethod.Put, uri, value);
-        return await SendRequest<T>(request);
+        return await SendRequestAsync<T>(request);
     }
 
-    public async Task Delete(string uri)
+    public async Task DeleteAsync(string uri)
     {
         var request = CreateRequest(HttpMethod.Delete, uri);
-        await SendRequest(request);
+        await SendRequestAsync(request);
     }
 
-    public async Task<T?> Delete<T>(string uri)
+    public async Task<T?> DeleteAsync<T>(string uri)
     {
         var request = CreateRequest(HttpMethod.Delete, uri);
-        return await SendRequest<T>(request);
+        return await SendRequestAsync<T>(request);
     }
     
-    private async Task SendRequest(HttpRequestMessage request)
+    private async Task SendRequestAsync(HttpRequestMessage request)
     {
         using var response = await _httpClient.SendAsync(request);
 
@@ -103,11 +104,13 @@ public class HttpService : IHttpService
             return;
         }
 
-        await HandleErrors(response);
+        await HandleErrorsAsync(response);
     }
 
-    private async Task<T?> SendRequest<T>(HttpRequestMessage request)
+    private async Task<T?> SendRequestAsync<T>(HttpRequestMessage request)
     {
+        Log.Information("Sending HttpRequestMessage: {@Request}", request);
+        
         using var response = await _httpClient.SendAsync(request);
 
         if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -116,16 +119,20 @@ public class HttpService : IHttpService
             return default;
         }
 
-        await HandleErrors(response);
+        await HandleErrorsAsync(response);
 
-        var options = new JsonSerializerOptions();
-        options.PropertyNameCaseInsensitive = true;
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
         options.Converters.Add(new JsonStringEnumConverter());
 
+        Log.Information("Received HttpResponseMessage: {@Response}", response);
+        
         return await response.Content.ReadFromJsonAsync<T>(options);
     }
 
-    private async Task AddJwtHeader(HttpRequestMessage request)
+    private async Task AddJwtHeaderAsync(HttpRequestMessage request)
     {
         var token = await _localStorageService.GetItem<string>("jwtToken");
         var isApiUrl = !request.RequestUri!.IsAbsoluteUri;
@@ -134,7 +141,7 @@ public class HttpService : IHttpService
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
     
-    private async Task HandleErrors(HttpResponseMessage response)
+    private static async Task HandleErrorsAsync(HttpResponseMessage response)
     {
         if (!response.IsSuccessStatusCode)
         {

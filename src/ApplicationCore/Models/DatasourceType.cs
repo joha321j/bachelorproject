@@ -2,14 +2,14 @@
 
 namespace ApplicationCore.Models;
 
-public class DatasourceType
+public class DatasourceType : InputType
 {
     [JsonPropertyName("datasourceId")]
-    public int Id { get; set; }
+    public override int Id { get; set; }
     
     [JsonPropertyName("datasourceTypeName")]
-    public string Name { get; set; } = null!;
+    public override string Name { get; set; } = null!;
 
     [JsonPropertyName("datasourceFields")]
-    public List<InputField>? Fields { get; set; }
+    public List<InputSection>? Fields { get; set; }
 }
