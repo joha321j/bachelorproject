@@ -1,9 +1,6 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components
 @using ApplicationCore.Models
-@using DatasourceApp.Services
-
-@inject IDatasourceFetcher DatasourceFetcher
 
 <PageTitle>Meta - OKR Datasources</PageTitle>
 
@@ -63,9 +60,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var datasourceTypes = await DatasourceFetcher.FetchAllTypes();
-        // ArgumentNullException.ThrowIfNull(datasourceTypes, "datasourceTypes != null");
-        DatasourceTypes = datasourceTypes;
+        DatasourceTypes = new();
 
         await base.OnInitializedAsync();
     }

@@ -3,7 +3,7 @@ using ApplicationCore.Models;
 
 namespace ApplicationCore.Services;
 
-public class FakeData
+public static class FakeData
 {
     public static List<Datasource> Datasources => new()
     {
