@@ -3,19 +3,20 @@ using System.Text;
 using System.Text.Json;
 using ApplicationCore.Models;
 using ApplicationCore.Services;
+using DatasourceApp.Services;
 
-namespace DatasourceApp.Services;
+namespace DataFakingLibrary;
 
 public class FakeBackendHandler : HttpClientHandler
 {
-    private ILocalStorageService _localStorageService;
+    private readonly ILocalStorageService _localStorageService;
 
-    private List<Datasource> _datasources;
+    private List<DataSource> _dataSources;
 
     public FakeBackendHandler(ILocalStorageService localStorageService)
     {
         _localStorageService = localStorageService;
-        _datasources = new List<Datasource>();
+        _dataSources = new List<DataSource>();
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(
@@ -33,17 +34,17 @@ public class FakeBackendHandler : HttpClientHandler
         var path = request.RequestUri?.AbsolutePath;
 
         if (path == "datasource" && method == HttpMethod.Get)
-            return await GetAllDatasources();
+            return await GetAllDataSources();
 
         return await base.SendAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> GetAllDatasources()
+    private async Task<HttpResponseMessage> GetAllDataSources()
     {
-        var datasources = await _localStorageService.GetItem<List<Datasource>>("datasources")
+        var dataSources = await _localStorageService.GetItem<List<DataSource>>("datasources")
                           ?? FakeData.Datasources;
 
-        return await Ok(datasources);
+        return await Ok(dataSources);
     }
 
     private async Task<HttpResponseMessage> Ok(object? body = null)

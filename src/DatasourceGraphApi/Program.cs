@@ -1,7 +1,13 @@
+using DatasourceGraphApi;
+using DatasourceGraphApi.GraphQL;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 
-builder.Services.AddGraphQLServer();
+builder.Services.AddTransient<ResolverClient>();
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>();
 
 var app = builder.Build();
 

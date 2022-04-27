@@ -9,10 +9,10 @@
 
 @if (DatasourceTypes is not null)
 {
-    <EditForm Model="NewDatasource" OnValidSubmit="OnValidSubmit">
+    <EditForm Model="NewDataSource" OnValidSubmit="OnValidSubmit">
         <div class="input-area mt-4">
             <label for="DatasourceName">Name</label>
-            <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="NewDatasource.Name"/>
+            <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="NewDataSource.Name"/>
         </div>
     
         <div class="input-area mt-4">
@@ -47,7 +47,7 @@
 }
 
 @code {
-    private List<DatasourceType>? DatasourceTypes { get; set; }
+    private List<DataSourceType>? DatasourceTypes { get; set; }
 
     private int SelectedDatasourceTypeId { get; set; }
 
@@ -70,6 +70,6 @@
         
     }
 
-    private Datasource NewDatasource { get; set; } = new();
+    private DataSource NewDataSource { get; set; } = new();
 
 }

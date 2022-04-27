@@ -5,12 +5,12 @@ namespace ApplicationCore.Services;
 
 public static class FakeData
 {
-    public static List<Datasource> Datasources => new()
+    public static List<DataSource> Datasources => new()
     {
-        new Datasource
+        new DataSource
         {
             Name = "Academy App Insights",
-            Type = new DatasourceType
+            Type = new DataSourceType
             {
                 Id = 1,
                 Name = "Azure App Insights",

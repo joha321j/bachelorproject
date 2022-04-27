@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Models;
 
-public class DatasourceType
+public class DataSourceType
 {
     [JsonPropertyName("datasourceId")]
     public int Id { get; set; }
