@@ -1,20 +1,28 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
+Meta - Datasources is a bachelors project created to extend the existing Meta - OKR Tracker.
+The goal of this product is to explorer and make it easier for other UR Teams to create and add data sources to the OKR Tracker, especially with the focus on non-technical teams.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Prerequisites
+1. [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+2. [Microsoft.Tye](https://github.com/dotnet/tye)
+3. [NodeJS](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows)
+4. [TailwindCSS](https://tailwindcss.com/docs/installation)  
+   ```shell
+   npm install -g tailwindcss
+   ```
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Build and Test
+1. Trust the development certificate:  
+   ```shell
+   dotnet dev-certs https --trust
+   ```
+3. Build the solution:  
+   ```shell
+   dotnet build
+   ```
+4. HotReload DatasourceApp:  
+   ```shell
+   dotnet watch --project ./src/DatasourceApp/DatasourceApp.csproj
+   ```

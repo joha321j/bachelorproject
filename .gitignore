@@ -360,3 +360,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Rider
+.idea/
+
+# TailwindCSS compiled CSS
+compiled.css

@@ -1,0 +1,49 @@
+name: meta-datasources
+
+ingress:
+  - name: ingress
+
+    bindings:
+      - port: 8080
+        protocol: https
+
+    rules:
+      - host: app.localhost
+        service: Frontend
+
+      - host: api.localhost
+        service: Backend
+        preservePath: true
+
+services:
+  - name: Frontend
+    project: src/DatasourceApp/DatasourceApp.csproj
+    tags: ["frontend"]
+    
+  - name: Backend
+    project: src/DatasourceGraphApi/DatasourceGraphApi.csproj
+    tags: ["backend"]
+
+  - name: PostgreSQL
+    image: postgres:13-alpine3.15
+    
+    bindings:
+      - port: 5432
+        containerPort: 5432
+        protocol: tcp
+    
+    tags: ["backend", "frontend", "services"]
+    
+    liveness:
+      http:
+        path: /
+
+    env:
+      - name: POSTGRES_USER
+        value: admin
+
+      - name: POSTGRES_PASSWORD
+        value: admin
+
+      - name: POSTGRES_DB
+        value: meta

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{20505298-69C5-4C11-9FFA-073585F07446}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatasourceApp", "src\DatasourceApp\DatasourceApp.csproj", "{B1DC8348-2742-4435-957A-118E842B4E2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatasourceGraphApi", "src\DatasourceGraphApi\DatasourceGraphApi.csproj", "{613D8D08-133E-471D-8582-86BE79CCB8CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{EE2EF885-D960-46FD-B649-F266A0905273}"
+	ProjectSection(SolutionItems) = preProject
+		tye.yml = tye.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7141AED9-D5C4-4C81-80B6-538C78CB31B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{1BADFD9D-9261-4779-8ADD-85930ABEB4CB}"
+	ProjectSection(SolutionItems) = preProject
+		misc\watchers.xml = misc\watchers.xml
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore", "src\ApplicationCore\ApplicationCore.csproj", "{75B5491E-C63F-44ED-AC04-9D340E4ACA92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1DC8348-2742-4435-957A-118E842B4E2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DC8348-2742-4435-957A-118E842B4E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DC8348-2742-4435-957A-118E842B4E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DC8348-2742-4435-957A-118E842B4E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613D8D08-133E-471D-8582-86BE79CCB8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613D8D08-133E-471D-8582-86BE79CCB8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613D8D08-133E-471D-8582-86BE79CCB8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613D8D08-133E-471D-8582-86BE79CCB8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B1DC8348-2742-4435-957A-118E842B4E2A} = {20505298-69C5-4C11-9FFA-073585F07446}
+		{613D8D08-133E-471D-8582-86BE79CCB8CF} = {20505298-69C5-4C11-9FFA-073585F07446}
+		{75B5491E-C63F-44ED-AC04-9D340E4ACA92} = {20505298-69C5-4C11-9FFA-073585F07446}
+	EndGlobalSection
+EndGlobal
