@@ -8,7 +8,8 @@ builder.Services.AddScoped<ResolverClient>();
 builder.Services.AddHttpClient("AppInsights", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["AppInsightsUrl"]);
-}).ConfigurePrimaryHttpMessageHandler(() => new FakeInsightHandler());
+}).ConfigurePrimaryHttpMessageHandler(
+    () => builder.Configuration["UseFakeBackend"] == "true" ? new FakeInsightHandler() : new HttpClientHandler());
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>();

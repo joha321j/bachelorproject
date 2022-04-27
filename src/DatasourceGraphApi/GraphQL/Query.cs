@@ -9,8 +9,8 @@ public class Query
         _client = client;
     }
 
-    public async Task<List<Book>?> GetBooks()
+    public async Task<List<Book>?> GetBooks(string appId)
     {
-        return await _client.Resolve<List<Book>>("abetauh", "atoeuha");
+        return await _client.Resolve<List<Book>>(appId, "atoeuha");
     }
 }   
