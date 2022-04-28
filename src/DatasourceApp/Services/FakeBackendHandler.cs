@@ -48,7 +48,7 @@ public class FakeBackendHandler : HttpClientHandler
 
     private async Task<HttpResponseMessage> GetAllDatasourceTypesAsync()
     {
-        var types = await _localStorageService.GetItem<List<DatasourceType>>("datasourceTypes")
+        var types = await _localStorageService.GetItem<List<DatasourceTypeSelection>>("datasourceTypes")
                     ?? FakeData.DatasourceTypes;
 
         return await OkAsync(types);

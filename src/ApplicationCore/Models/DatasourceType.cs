@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Models;
 
-public class DatasourceType : InputType
+public class DatasourceTypeSelection : InputTypeSelection
 {
     [JsonPropertyName("datasourceId")]
     public override int Id { get; set; }

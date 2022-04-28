@@ -10,7 +10,7 @@ public static class FakeData
         new Datasource
         {
             Name = "Academy App Insights",
-            Type = new DatasourceType
+            TypeSelection = new DatasourceTypeSelection
             {
                 Id = 1,
                 Name = "Azure App Insights",
@@ -19,7 +19,7 @@ public static class FakeData
                     new()
                     {
                         Name = "Authorization",
-                        ChoicesName = "Type",
+                        ChoicesName = "TypeSelection",
                         Required = true,
                         Choices = new List<InputChoice>
                         {
@@ -64,8 +64,8 @@ public static class FakeData
         }
     };
 
-    public static List<DatasourceType> DatasourceTypes => Datasources
-        .Select(d => d.Type)
+    public static List<DatasourceTypeSelection> DatasourceTypes => Datasources
+        .Select(d => d.TypeSelection)
         .DistinctBy(d => d.Name)
         .ToList();
 }

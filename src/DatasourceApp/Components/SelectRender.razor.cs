@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ApplicationCore.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace DatasourceApp.Components;
 
 public partial class SelectRender<T>
+    where T : InputTypeSelection
 {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -16,7 +18,18 @@ public partial class SelectRender<T>
     [Parameter]
     public string Id { get; set; } = null!;
 
-    private int SelectedId { get; set; }
+    private int _selectedId;
+    private int SelectedId
+    {
+        get => _selectedId;
+        set
+        {
+            var newValue = InputCollection?.FirstOrDefault(i => i.Id == value);
+            Value = newValue
+                    ?? throw new InvalidOperationException();
+        }
+        
+    }
 
     [Parameter]
     public T Value

@@ -8,5 +8,5 @@ public class Datasource
     public string Name { get; set; } = null!;
 
     [JsonPropertyName("datasourceType")]
-    public DatasourceType Type { get; set; } = null!;
+    public DatasourceTypeSelection TypeSelection { get; set; } = null!;
 }

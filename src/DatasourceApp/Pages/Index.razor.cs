@@ -1,18 +1,18 @@
 ﻿using ApplicationCore.Models;
 using DatasourceApp.Services;
 using Microsoft.AspNetCore.Components;
-using Serilog;
 
 namespace DatasourceApp.Pages;
 
 public partial class Index
 {
-    public DatasourceType? SelectedDatasourceType { get; set; }
+    private DatasourceTypeSelection? SelectedDatasourceType =>
+        DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
+
+    [Inject]
+    private IHttpService Client { get; set; } = null!;
     
-    
-    [Inject] private IHttpService Client { get; set; }
-    
-    private List<DatasourceType>? DatasourceTypes { get; set; }
+    private List<DatasourceTypeSelection>? DatasourceTypes { get; set; }
 
     private int SelectedDatasourceTypeId { get; set; }
 
@@ -27,7 +27,7 @@ public partial class Index
     
     protected override async Task OnInitializedAsync()
     {
-        DatasourceTypes = await Client.GetAsync<List<DatasourceType>>("datatype");
+        DatasourceTypes = await Client.GetAsync<List<DatasourceTypeSelection>>("datatype");
         await base.OnInitializedAsync();
     }
 

@@ -27,10 +27,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\BackendHandlers" />
-  </ItemGroup>
-
   <Target Name="CheckForNpm" BeforeTargets="BuildCSS-Prod;BuildCSS-Dev">
     <Exec Command="npm -v" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
