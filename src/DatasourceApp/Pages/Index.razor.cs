@@ -7,10 +7,10 @@ namespace DatasourceApp.Pages;
 
 public partial class Index
 {
-    public DatasourceType? SelectedDatasourceType { get; set; }
-    
-    
-    [Inject] private IHttpService Client { get; set; }
+    private DatasourceType? SelectedDatasourceType { get; set; }
+
+    [Inject]
+    private IHttpService Client { get; set; } = null!;
     
     private List<DatasourceType>? DatasourceTypes { get; set; }
 

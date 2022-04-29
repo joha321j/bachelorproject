@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using DatasourceApp;
@@ -24,11 +25,10 @@ builder.Services.AddCors(options =>
     )
 );
 
-// builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
 builder.Services
     .AddScoped<IHttpService, HttpService>()
-    .AddScoped<ILocalStorageService, LocalStorageService>();
+    .AddScoped<ILocalStorageService, LocalStorageService>()
+    .AddBlazoredModal();
 
 builder.Services.AddScoped(serviceProvider =>
 {
