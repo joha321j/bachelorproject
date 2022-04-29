@@ -2,13 +2,13 @@
 
 namespace ApplicationCore.Models;
 
-public abstract class InputType
+public abstract class InputTypeSelection
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; } = null!;
 }
 
-public class InputSection : InputType
+public class InputSection : InputTypeSelection
 {
     [JsonPropertyName("inputSectionId")]
     public override int Id { get; set; }
@@ -29,7 +29,7 @@ public class InputSection : InputType
     public bool Required { get; set; }
 }
 
-public class InputChoice : InputType
+public class InputChoice : InputTypeSelection
 {
     [JsonPropertyName("inputChoiceId")]
     public override int Id { get; set; }
@@ -45,14 +45,14 @@ public class InputChoice : InputType
         var result = "";
         foreach (var field in Fields)
         {
-            result += $"{field.Name}: {field.Value}, Required: {field.Required}, InputType: {field.InputType}";
+            result += $"{field.Name}: {field.Value}, Required: {field.Required}, InputTypeSelection: {field.InputType}";
         }
 
         return result;
     }
 }
 
-public class InputField : InputType
+public class InputField : InputTypeSelection
 {
     [JsonPropertyName("inputFieldId")]
     public override int Id { get; set; }

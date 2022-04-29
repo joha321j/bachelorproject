@@ -1,8 +1,11 @@
-﻿@typeparam T where T : InputType
+﻿@typeparam T where T : ApplicationCore.Models.InputTypeSelection
 
-@ChildContent
+@* @ChildContent *@
 
-<InputSelect class="field border-primary p-4" id="@Id" @bind-Value="SelectedId">
+<InputSelect class="field border-primary p-4"
+             id="@Id"
+             @bind-Value="SelectedId">
+    
     @if (InputCollection is not null)
     {
         if (!string.IsNullOrWhiteSpace(PlaceholderText))
@@ -10,10 +13,11 @@
             <option value="0" selected hidden>Select a datasource type...</option>
 
         }
-        
+
         foreach (var type in InputCollection)
         {
             <option value="@type.Id">@type.Name</option>
         }
     }
+    
 </InputSelect>
