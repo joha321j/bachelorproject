@@ -6,15 +6,7 @@ namespace DatasourceApp.Pages;
 
 public partial class Index
 {
-    private DatasourceType? _selectedDatasourceType;
-    private DatasourceType? SelectedDatasourceType
-    {
-        get
-        {
-            return DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
-        }
-        set => _selectedDatasourceType = value;
-    }
+    private DatasourceType? SelectedDatasourceType => DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
 
     [Inject]
     private IHttpService Client { get; set; } = null!;
