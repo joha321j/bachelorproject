@@ -1,84 +1,67 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components
-@using DatasourceApp.Components
-@using ApplicationCore.Models
 
 <PageTitle>Meta - OKR Datasources</PageTitle>
 
-
 <h4>New Datasource</h4>
 
-@if (DatasourceTypes is not null)
-{
-    <EditForm Model="NewDatasource" OnValidSubmit="OnValidSubmit">
-        <div class="input-area mt-4">
-            <label for="DatasourceName">Name</label>
-            <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="NewDatasource.Name"/>
-        </div>
-    
-        <div class="input-area mt-4">
-            <label for="DatasourceType">TypeSelection</label>
-            <SelectRender
-                InputCollection="@DatasourceTypes"
-                PlaceholderText="Select a datasource type.."
-                Id="DatasourceType"
-                @bind-Value="SelectedDatasourceTypeId" />
+<EditForm Model="_newDatasource" OnValidSubmit="OnValidSubmit">
+    <div class="input-area mt-4">
+        <label for="DatasourceName">Name</label>
+        <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="_newDatasource.Name"/>
+    </div>
+
+    <div class="input-area mt-4">
+        <label for="DatasourceType">Type</label>
+
+        <InputSelect class="field border-primary p-4" id="DatasourceType" @bind-Value="SelectedDatasourceTypeId">
             
-            @* <InputSelect class="field border-primary p-4" id="DatasourceTypeSelection" @bind-Value="SelectedDatasourceTypeSelectionId"> *@
-            @*     @if (DatasourceTypeSelections is not null) *@
-            @*     { *@
-            @*         <option value="0" selected hidden>Select a datasource type...</option> *@
-            @*         @foreach (var type in DatasourceTypeSelections) *@
-            @*         { *@
-            @*             <option value="@type.Id">@type.Name</option> *@
-            @*         } *@
-            @*     } *@
-            @* </InputSelect> *@
-        </div>
-        
-        @if (SelectedDatasourceType?.Fields is not null)
-        {
-            @foreach (var inputSection in SelectedDatasourceType.Fields)
+            <option value="0" selected hidden>Select a datasource type...</option>
+            
+            @foreach (var type in DatasourceTypes)
             {
-                <fieldset class="p-4 border-solid border rounded bg-white border-base-300 mt-4">
-                    <legend class="p-1">@inputSection.Name</legend>
-                    <label for=@(inputSection.Name + inputSection.ChoicesName)>@inputSection.ChoicesName</label>
-                    <SelectRender T="InputChoice"
-                                  InputCollection="inputSection.Choices"
-                                  PlaceholderText="Select a type..." 
-                                  Id=@(inputSection.Name + inputSection.ChoicesName) />
-                </fieldset>
-            @*         <InputSelect id=@(inputSection.Name + inputSection.ChoicesName) class="field border-primary p-4"> *@
-            @*             <option value="0" selected hidden>Select a @inputSection.Name @inputSection.ChoicesName</option> *@
-            @*             @foreach (var choice in inputSection.Choices) *@
-            @*             { *@
-            @*                 <option value="@choice.Id">@choice.Name</option> *@
-            @*             } *@
-            @*         </InputSelect> *@
-            @*         @foreach (var choice in inputSection.Choices) *@
-            @*         { *@
-            @*             <div> *@
-            @*                 <p>@choice.Name</p> *@
-            @*                 @foreach (var field in choice.Fields) *@
-            @*                 { *@
-            @*                     <div class="input-area mt-4"> *@
-            @*                         <label for="@field.Name">@field.Name</label> *@
-            @*                         <InputText class="field border-primary p-4" *@
-            @*                                    id="@field.Name" *@
-            @*                                    type="@field.InputTypeSelection" *@
-            @*                                    @bind-Value="field.Value" *@
-            @*                                    required="@field.Required" /> *@
-            @*                     </div> *@
-            @*                 } *@
-            @*             </div> *@
-            @*         } *@
-            @*         $1$ <InputText class="field border-primary p-4" id="@section.Name" Required="@section.Required" @bind-Value="section.Value"/> #1# *@
-            @*     </fieldset> *@
+                <option value="@type.Id">@type.Name</option>
             }
 
+        </InputSelect>
+    </div>
+
+    @if (SelectedDatasourceType?.Fields is not null)
+    {
+        @foreach (var inputSection in SelectedDatasourceType.Fields)
+        {
+            <fieldset class="p-4 border-solid border rounded bg-white border-base-300 mt-4">
+                <legend class="p-1">@inputSection.Name</legend>
+
+                @for (var k = 0; k < inputSection.Choices.Count; k++)
+                {
+                    var choice = inputSection.Choices[k];
+                    <div>
+                        <p class="h5">@choice.Name</p>
+                        @foreach(var field in choice.Fields)
+                        {
+                            <div class="input-area mt-4">
+                                <label for="@field.Name">@field.Name</label>
+                                <InputText class="field border-primary p-4"
+                                           id="@field.Name"
+                                           type="@field.InputType"
+                                           @bind-Value="@field.Value"
+                                           required="@field.Required"/>
+                            </div>
+                        }
+                    </div>
+                    
+                    if (k + 1 >= inputSection.Choices.Count)
+                    {
+                        continue;
+                    }
+                    <div class="bg-base-200 my-8 w-full h-0.5"></div>
+                }
+
+                <InputText class="field border-primary p-4" id="@inputSection.Name" Required="@inputSection.Required"/>
+            </fieldset>
         }
-        <div class="float-right mt-4">
-            <button class="btn-primary">Add Datasource</button>
-        </div>
-    </EditForm>
-}
+    }
+    <div class="float-right mt-4">
+        <button class="btn-primary">Add Datasource</button>
+    </div>
+</EditForm>

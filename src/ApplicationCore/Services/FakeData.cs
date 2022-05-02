@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using ApplicationCore.Models;
+﻿using ApplicationCore.Models;
 
 namespace ApplicationCore.Services;
 
@@ -10,7 +9,7 @@ public static class FakeData
         new Datasource
         {
             Name = "Academy App Insights",
-            TypeSelection = new DatasourceTypeSelection
+            DatasourceType = new DatasourceType
             {
                 Id = 1,
                 Name = "Azure App Insights",
@@ -19,7 +18,7 @@ public static class FakeData
                     new()
                     {
                         Name = "Authorization",
-                        ChoicesName = "TypeSelection",
+                        ChoicesName = "DatasourceType",
                         Required = true,
                         Choices = new List<InputChoice>
                         {
@@ -64,8 +63,8 @@ public static class FakeData
         }
     };
 
-    public static List<DatasourceTypeSelection> DatasourceTypes => Datasources
-        .Select(d => d.TypeSelection)
+    public static List<DatasourceType> DatasourceTypes => Datasources
+        .Select(d => d.DatasourceType)
         .DistinctBy(d => d.Name)
         .ToList();
 }

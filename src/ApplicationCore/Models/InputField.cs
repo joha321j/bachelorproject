@@ -4,17 +4,20 @@ namespace ApplicationCore.Models;
 
 public abstract class InputTypeSelection
 {
+    [JsonPropertyName("inputTypeSelectionId")]
     public virtual int Id { get; set; }
+    
+    [JsonPropertyName("inputTypeSelectionName")]
     public virtual string Name { get; set; } = null!;
 }
 
-public class InputSection : InputTypeSelection
+public class InputSection
 {
     [JsonPropertyName("inputSectionId")]
-    public override int Id { get; set; }
+    public int Id { get; set; }
     
     [JsonPropertyName("inputSectionName")]
-    public override string Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
     
     [JsonPropertyName("inputSectionChoice")]
     public InputChoice? Choice { get; set; }

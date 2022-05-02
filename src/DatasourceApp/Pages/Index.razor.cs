@@ -6,28 +6,30 @@ namespace DatasourceApp.Pages;
 
 public partial class Index
 {
-    private DatasourceTypeSelection? SelectedDatasourceType =>
-        DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
+    private DatasourceType? _selectedDatasourceType;
+    private DatasourceType? SelectedDatasourceType
+    {
+        get
+        {
+            return DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
+        }
+        set => _selectedDatasourceType = value;
+    }
 
     [Inject]
     private IHttpService Client { get; set; } = null!;
-    
-    private List<DatasourceTypeSelection>? DatasourceTypes { get; set; }
+
+    private List<DatasourceType> DatasourceTypes { get; set; } = new();
 
     private int SelectedDatasourceTypeId { get; set; }
 
-    private List<InputSection>? InputFieldsFrom { get; set; }
+    private Datasource _newDatasource = new();
 
-    private List<InputSection>? Fields()
-    {
-        return DatasourceTypes?.FirstOrDefault(f => f.Id == SelectedDatasourceTypeId)?.Fields;
-    }
-
-    private Datasource NewDatasource { get; set; } = new();
-    
     protected override async Task OnInitializedAsync()
     {
-        DatasourceTypes = await Client.GetAsync<List<DatasourceTypeSelection>>("datatype");
+        DatasourceTypes = await Client.GetAsync<List<DatasourceType>>("datatype")
+                          ?? throw new InvalidOperationException();
+        
         await base.OnInitializedAsync();
     }
 
