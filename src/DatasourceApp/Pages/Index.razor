@@ -1,13 +1,13 @@
 ﻿@page "/"
 
-<PageTitle>Meta - OKR Datasources</PageTitle>
+<PageTitle>Meta - OKR DataSources</PageTitle>
 
-<h4>New Datasource</h4>
+<h4>New DataSource</h4>
 
-<EditForm Model="_newDatasource" OnValidSubmit="OnValidSubmit">
+<EditForm Model="_newDataSource" OnValidSubmit="OnValidSubmit">
     <div class="input-area mt-4">
         <label for="DatasourceName">Name</label>
-        <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="_newDatasource.Name"/>
+        <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="_newDataSource.Name"/>
     </div>
 
     <div class="input-area mt-4">
@@ -17,7 +17,7 @@
             
             <option value="0" selected hidden>Select a datasource type...</option>
             
-            @foreach (var type in DatasourceTypes)
+            @foreach (var type in DataSourceTypes)
             {
                 <option value="@type.Id">@type.Name</option>
             }
@@ -25,9 +25,9 @@
         </InputSelect>
     </div>
 
-    @if (SelectedDatasourceType?.Fields is not null)
+    @if (SelectedDataSourceType?.Fields is not null)
     {
-        @foreach (var inputSection in SelectedDatasourceType.Fields)
+        @foreach (var inputSection in SelectedDataSourceType.Fields)
         {
             <fieldset class="p-4 border-solid border rounded bg-white border-base-300 mt-4">
                 <legend class="p-1">@inputSection.Name</legend>
@@ -62,6 +62,6 @@
         }
     }
     <div class="float-right mt-4">
-        <button class="btn-primary">Add Datasource</button>
+        <button class="btn-primary">Add DataSource</button>
     </div>
 </EditForm>

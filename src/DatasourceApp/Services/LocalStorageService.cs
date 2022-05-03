@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.JSInterop;
 
-namespace DatasourceApp.Services;
+namespace DataSourceApp.Services;
 
 public interface ILocalStorageService
 {

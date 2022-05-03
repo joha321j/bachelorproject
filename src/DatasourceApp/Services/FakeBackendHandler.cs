@@ -5,7 +5,7 @@ using ApplicationCore.Models;
 using ApplicationCore.Services;
 using Serilog;
 
-namespace DatasourceApp.Services;
+namespace DataSourceApp.Services;
 
 public class FakeBackendHandler : HttpClientHandler
 {
@@ -48,7 +48,7 @@ public class FakeBackendHandler : HttpClientHandler
 
     private async Task<HttpResponseMessage> GetAllDatasourceTypesAsync()
     {
-        var types = await _localStorageService.GetItem<List<DatasourceType>>("datasourceTypes")
+        var types = await _localStorageService.GetItem<List<DataSourceType>>("datasourceTypes")
                     ?? FakeData.DatasourceTypes;
 
         return await OkAsync(types);
@@ -56,7 +56,7 @@ public class FakeBackendHandler : HttpClientHandler
     
     private async Task<HttpResponseMessage> GetAllDatasourcesAsync()
     {
-        var datasources = await _localStorageService.GetItem<List<Datasource>>("datasources")
+        var datasources = await _localStorageService.GetItem<List<DataSource>>("datasources")
                           ?? FakeData.Datasources;
 
         return await OkAsync(datasources);

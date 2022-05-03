@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace DatasourceApp.Exceptions;
+namespace DataSourceApp.Exceptions;
 
 public class LocalStorageItemNotFoundException : Exception
 {

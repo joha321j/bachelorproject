@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Serilog;
 
-namespace DatasourceApp.Services;
+namespace DataSourceApp.Services;
 
 public interface IHttpService
 {

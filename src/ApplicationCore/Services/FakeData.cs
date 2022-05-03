@@ -4,12 +4,12 @@ namespace ApplicationCore.Services;
 
 public static class FakeData
 {
-    public static List<Datasource> Datasources => new()
+    public static List<DataSource> Datasources => new()
     {
-        new Datasource
+        new DataSource
         {
             Name = "Academy App Insights",
-            DatasourceType = new DatasourceType
+            DataSourceType = new DataSourceType
             {
                 Id = 1,
                 Name = "Azure App Insights",
@@ -18,7 +18,7 @@ public static class FakeData
                     new()
                     {
                         Name = "Authorization",
-                        ChoicesName = "DatasourceType",
+                        ChoicesName = "DataSourceType",
                         Required = true,
                         Choices = new List<InputChoice>
                         {
@@ -63,8 +63,8 @@ public static class FakeData
         }
     };
 
-    public static List<DatasourceType> DatasourceTypes => Datasources
-        .Select(d => d.DatasourceType)
+    public static List<DataSourceType> DatasourceTypes => Datasources
+        .Select(d => d.DataSourceType)
         .DistinctBy(d => d.Name)
         .ToList();
 }

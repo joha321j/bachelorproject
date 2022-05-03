@@ -1,25 +1,25 @@
 ﻿using ApplicationCore.Models;
-using DatasourceApp.Services;
+using DataSourceApp.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace DatasourceApp.Pages;
+namespace DataSourceApp.Pages;
 
 public partial class Index
 {
-    private DatasourceType? SelectedDatasourceType => DatasourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
+    private DataSourceType? SelectedDataSourceType => DataSourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
 
     [Inject]
     private IHttpService Client { get; set; } = null!;
 
-    private List<DatasourceType> DatasourceTypes { get; set; } = new();
+    private List<DataSourceType> DataSourceTypes { get; set; } = new();
 
     private int SelectedDatasourceTypeId { get; set; }
 
-    private Datasource _newDatasource = new();
+    private DataSource _newDataSource = new();
 
     protected override async Task OnInitializedAsync()
     {
-        DatasourceTypes = await Client.GetAsync<List<DatasourceType>>("datatype")
+        DataSourceTypes = await Client.GetAsync<List<DataSourceType>>("datatype")
                           ?? throw new InvalidOperationException();
         
         await base.OnInitializedAsync();

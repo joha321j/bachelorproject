@@ -1,8 +1,8 @@
 using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using DatasourceApp;
-using DatasourceApp.Services;
+using DataSourceApp;
+using DataSourceApp.Services;
 using Serilog;
 using Serilog.Core;
 
