@@ -4,7 +4,7 @@ namespace ApplicationCore.Services;
 
 public static class FakeData
 {
-    public static List<DataSource> Datasources => new()
+    public static List<DataSource> DataSources => new()
     {
         new DataSource
         {
@@ -63,7 +63,7 @@ public static class FakeData
         }
     };
 
-    public static List<DataSourceType> DatasourceTypes => Datasources
+    public static List<DataSourceType> DataSourceTypes => DataSources
         .Select(d => d.DataSourceType)
         .DistinctBy(d => d.Name)
         .ToList();
