@@ -18,7 +18,7 @@ public class AppInsightsResolverClientTest
     private const string BasePath = $"/v1/apps/{AppId}";
     
     [Fact]
-    public async Task Resolve_Should_UseCorrectClient()
+    public async Task Resolve_Should_UseCorrectClient_When_GettingQueries()
     {
         const string path = BasePath + $"/query?query={Query}";
         var clientNameCaptor = new ArgumentCaptor<string>();
@@ -43,7 +43,9 @@ public class AppInsightsResolverClientTest
 
     [Theory]
     [MemberData(nameof(PathTestData))]
-    public async Task Resolve_Should_ConstructCorrectPath(List<KeyValuePair<string, string>> parameters, string path)
+    public async Task Resolve_Should_ConstructCorrectPath_When_GettingMetrics(
+        List<KeyValuePair<string, string>> parameters,
+        string path)
     {
         var clientNameCaptor = new ArgumentCaptor<string>();
 
@@ -89,7 +91,9 @@ public class AppInsightsResolverClientTest
         yield return new object[]
         {
             parameters,
-            basePath + $"?{parameters[0].Key}={parameters[0].Value}&{parameters[1].Key}={parameters[1].Value}"
+            basePath +
+            $"?{parameters[0].Key}={parameters[0].Value}" +
+            $"&{parameters[1].Key}={parameters[1].Value}"
         };
     }
 }
