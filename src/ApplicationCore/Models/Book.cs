@@ -1,4 +1,4 @@
-﻿namespace DatasourceGraphApi;
+﻿namespace ApplicationCore.Models;
 
 public class Book
 {

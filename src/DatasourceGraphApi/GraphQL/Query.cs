@@ -1,4 +1,5 @@
-﻿using DatasourceGraphApi.GraphQL.ResolverClients;
+﻿using ApplicationCore.Models;
+using DatasourceGraphApi.GraphQL.ResolverClients;
 
 namespace DatasourceGraphApi.GraphQL;
 
