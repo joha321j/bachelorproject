@@ -31,7 +31,7 @@ public class FakeInsightHandler : HttpClientHandler
 
     private async Task<HttpResponseMessage> GetAppInsightsData()
     {
-        var data = FakeData.Books;
+        var data = FakeData.QueryResults;
 
         return await Ok(data);
     }

@@ -18,7 +18,7 @@ namespace ApplicationCore.Models.AppInsights.Queries
         /// <summary> Initializes a new instance of Column. </summary>
         /// <param name="name"> The name of this column. </param>
         /// <param name="type"> The data type of this column. </param>
-        internal Column(string name, string type)
+        public Column(string name, string type)
         {
             Name = name;
             Type = type;

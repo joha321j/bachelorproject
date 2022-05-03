@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using ApplicationCore.Models;
+using ApplicationCore.Models.AppInsights.Queries;
 
 namespace ApplicationCore.Services;
 
@@ -27,17 +28,25 @@ public static class FakeData
         }
     };
 
-    public static List<Book> Books => new()
+    public static QueryResults QueryResults => new(new List<Table>
     {
-        new Book
-        {
-            Title = "Git Good",
-            Author = new Author
+        new("TestTable", 
+            new List<Column>
             {
-                Name = "Mike Meldgaard"
-            }
-        }
-    };
+                new(name: "TestColumn", type: "Name")
+            },
+            new List<IList<string>>
+            {
+                new List<string>
+                {
+                    "TestRow"
+                },
+                new List<string>
+                {
+                    "BestRow"
+                }
+            })
+    });
 
     public static string DatasourcesJsonText => JsonSerializer.Serialize(DataSources);
 }

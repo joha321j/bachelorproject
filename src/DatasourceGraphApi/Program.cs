@@ -1,5 +1,4 @@
 using DataFakingLibrary;
-using DatasourceGraphApi;
 using DatasourceGraphApi.GraphQL;
 using DatasourceGraphApi.GraphQL.ResolverClients;
 

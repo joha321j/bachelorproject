@@ -10,13 +10,13 @@ using System.Collections;
 namespace ApplicationCore.Models.AppInsights.Metrics
 {
     /// <summary> A metric result data. </summary>
-    public partial class MetricsResultInfo : IReadOnlyDictionary<string, object>
+    public class MetricsResultInfo
     {
         /// <summary> Initializes a new instance of MetricsResultInfo. </summary>
         internal MetricsResultInfo()
         {
             Segments = new List<MetricsSegmentInfo>();
-            AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, string>();
         }
 
         /// <summary> Initializes a new instance of MetricsResultInfo. </summary>
@@ -25,7 +25,12 @@ namespace ApplicationCore.Models.AppInsights.Metrics
         /// <param name="interval"> The interval used to segment the metric data. </param>
         /// <param name="segments"> Segmented metric data (if segmented). </param>
         /// <param name="additionalProperties"> . </param>
-        internal MetricsResultInfo(string start, string end, TimeSpan? interval, IReadOnlyList<MetricsSegmentInfo> segments, IReadOnlyDictionary<string, object> additionalProperties)
+        internal MetricsResultInfo(
+            string start,
+            string end,
+            TimeSpan? interval,
+            IReadOnlyList<MetricsSegmentInfo> segments,
+            IReadOnlyDictionary<string, string> additionalProperties)
         {
             Start = start;
             End = end;
@@ -36,31 +41,28 @@ namespace ApplicationCore.Models.AppInsights.Metrics
 
         /// <summary> Start time of the metric. </summary>
         public string Start { get; }
+        
         /// <summary> Start time of the metric. </summary>
         public string End { get; }
+        
         /// <summary> The interval used to segment the metric data. </summary>
         public TimeSpan? Interval { get; }
+        
         /// <summary> Segmented metric data (if segmented). </summary>
         public IReadOnlyList<MetricsSegmentInfo> Segments { get; }
-        internal IReadOnlyDictionary<string, object> AdditionalProperties { get; }
-        /// <inheritdoc />
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => AdditionalProperties.GetEnumerator();
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => AdditionalProperties.GetEnumerator();
-        /// <inheritdoc />
-        public bool TryGetValue(string key, out object value) => AdditionalProperties.TryGetValue(key, out value);
-        /// <inheritdoc />
+        
+        internal IReadOnlyDictionary<string, string> AdditionalProperties { get; }
+
+        // public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => AdditionalProperties.GetEnumerator();
+
+        public bool TryGetValue(string key, out string value) => AdditionalProperties.TryGetValue(key, out value);
+        
         public bool ContainsKey(string key) => AdditionalProperties.ContainsKey(key);
-        /// <inheritdoc />
-        public IEnumerable<string> Keys => AdditionalProperties.Keys;
-        /// <inheritdoc />
-        public IEnumerable<object> Values => AdditionalProperties.Values;
-        /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
-        int IReadOnlyCollection<KeyValuePair<string, object>>.Count => AdditionalProperties.Count;
-        /// <inheritdoc />
-        public object this[string key]
-        {
-            get => AdditionalProperties[key];
-        }
+        
+        public List<string> Keys => AdditionalProperties.Keys.ToList();
+        
+        public List<string> Values => AdditionalProperties.Values.ToList();
+        
+        public object this[string key] => AdditionalProperties[key];
     }
 }

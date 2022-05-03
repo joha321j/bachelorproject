@@ -10,22 +10,10 @@ namespace ApplicationCore.Models.AppInsights.Queries
     /// <summary> Contains the tables, columns &amp; rows resulting from a query. </summary>
     public partial class QueryResults
     {
-        /// <summary> Initializes a new instance of QueryResults. </summary>
-        /// <param name="tables"> The list of tables, columns and rows. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="tables"/> is null. </exception>
-        internal QueryResults(IEnumerable<Table> tables)
-        {
-            if (tables == null)
-            {
-                throw new ArgumentNullException(nameof(tables));
-            }
-
-            Tables = tables.ToList();
-        }
 
         /// <summary> Initializes a new instance of QueryResults. </summary>
         /// <param name="tables"> The list of tables, columns and rows. </param>
-        internal QueryResults(IReadOnlyList<Table> tables)
+        public QueryResults(IReadOnlyList<Table> tables)
         {
             Tables = tables;
         }

@@ -14,32 +14,7 @@ namespace ApplicationCore.Models.AppInsights.Queries
         /// <param name="name"> The name of the table. </param>
         /// <param name="columns"> The list of columns in this table. </param>
         /// <param name="rows"> The resulting rows from this query. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="columns"/>, or <paramref name="rows"/> is null. </exception>
-        internal Table(string name, IEnumerable<Column> columns, IEnumerable<IList<string>> rows)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            if (columns == null)
-            {
-                throw new ArgumentNullException(nameof(columns));
-            }
-            if (rows == null)
-            {
-                throw new ArgumentNullException(nameof(rows));
-            }
-
-            Name = name;
-            Columns = columns.ToList();
-            Rows = rows.ToList();
-        }
-
-        /// <summary> Initializes a new instance of Table. </summary>
-        /// <param name="name"> The name of the table. </param>
-        /// <param name="columns"> The list of columns in this table. </param>
-        /// <param name="rows"> The resulting rows from this query. </param>
-        internal Table(string name, IReadOnlyList<Column> columns, IReadOnlyList<IList<string>> rows)
+        public Table(string name, IReadOnlyList<Column> columns, IReadOnlyList<IList<string>> rows)
         {
             Name = name;
             Columns = columns;
