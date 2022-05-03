@@ -1,4 +1,4 @@
-﻿namespace DatasourceGraphApi;
+﻿namespace DatasourceGraphApi.GraphQL.ResolverClients;
 
 public class AppInsightsResolverClient
 {

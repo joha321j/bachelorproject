@@ -1,4 +1,6 @@
-﻿namespace DatasourceGraphApi.GraphQL;
+﻿using DatasourceGraphApi.GraphQL.ResolverClients;
+
+namespace DatasourceGraphApi.GraphQL;
 
 public class Query
 {

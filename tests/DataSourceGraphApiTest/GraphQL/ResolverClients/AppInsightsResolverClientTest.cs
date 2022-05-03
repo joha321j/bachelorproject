@@ -1,18 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading;
 using System.Threading.Tasks;
-using ApplicationCore.Services;
-using DataFakingLibrary;
 using DatasourceGraphApi;
+using DatasourceGraphApi.GraphQL.ResolverClients;
 using FakeItEasy;
 using FluentAssertions;
 using Xunit;
 
-namespace DataSourceGraphApiTest;
+namespace DataSourceGraphApiTest.GraphQL.ResolverClients;
 
 public class AppInsightsResolverClientTest
 {
