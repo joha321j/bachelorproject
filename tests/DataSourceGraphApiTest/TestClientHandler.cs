@@ -26,5 +26,5 @@ public class TestClientHandler : HttpClientHandler
         });
     }
 
-    public Uri? Request { get; set; }
+    public Uri? Request { get; private set; }
 }

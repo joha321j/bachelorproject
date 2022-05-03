@@ -2,15 +2,15 @@
 
 public class Query
 {
-    private readonly AppInsightsResolverClient _client;
+    private readonly AppInsightsResolverClient _appInsightsResolverClient;
 
-    public Query(AppInsightsResolverClient client)
+    public Query(AppInsightsResolverClient appInsightsResolverClient)
     {
-        _client = client;
+        _appInsightsResolverClient = appInsightsResolverClient;
     }
 
-    public async Task<List<Book>?> GetBooks(string appId)
+    public async Task<List<Book>?> GetBooks(string appId, string query)
     {
-        return await _client.Resolve<List<Book>>(appId, "atoeuha");
+        return await _appInsightsResolverClient.Resolve<List<Book>>(appId, query);
     }
 }   
