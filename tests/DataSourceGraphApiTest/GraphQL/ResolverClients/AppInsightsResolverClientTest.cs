@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using DatasourceGraphApi;
 using DatasourceGraphApi.GraphQL.ResolverClients;
 using FakeItEasy;
 using FluentAssertions;
