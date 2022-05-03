@@ -16,30 +16,36 @@ public class AppInsightsResolverClientTest
     private const string Query = "TestQuery";
     private const string MetricId = "TestMetricId";
     private const string BasePath = $"/v1/apps/{AppId}";
-    
-    [Fact]
-    public async Task Resolve_Should_UseCorrectClient_When_GettingQueries()
-    {
-        const string path = BasePath + $"/query?query={Query}";
-        var clientNameCaptor = new ArgumentCaptor<string>();
 
-        var handler = new TestClientHandler();
-        var client = new HttpClient(handler)
+    private readonly TestClientHandler _testClientHandler = new();
+    private readonly ArgumentCaptor<string> _clientNameCaptor = new();
+    private readonly AppInsightsResolverClient _resolverClient;
+
+    public AppInsightsResolverClientTest()
+    {
+        var client = new HttpClient(_testClientHandler)
         {
             BaseAddress = Uri
         };
         var factory = A.Fake<IHttpClientFactory>();
-        A.CallTo(() => factory.CreateClient(clientNameCaptor))
+        A.CallTo(() => factory.CreateClient(_clientNameCaptor))
             .Returns(client);
-        
-        var resolverClient = new AppInsightsResolverClient(factory);
 
-        await resolverClient.Resolve(AppId, Query);
-
-        clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
-        handler.Request.Should().NotBeNull();
-        handler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
+        _resolverClient = new AppInsightsResolverClient(factory);
     }
+
+    [Fact]
+    public async Task Resolve_Should_UseCorrectClient_When_GettingQueries()
+    {
+        const string path = BasePath + $"/query?query={Query}";
+
+        await _resolverClient.Resolve(AppId, Query);
+
+        _clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
+        _testClientHandler.Request.Should().NotBeNull();
+        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
+    }
+
 
     [Theory]
     [MemberData(nameof(PathTestData))]
@@ -47,23 +53,11 @@ public class AppInsightsResolverClientTest
         List<KeyValuePair<string, string>> parameters,
         string path)
     {
-        var clientNameCaptor = new ArgumentCaptor<string>();
+        await _resolverClient.Resolve(AppId, MetricId, parameters);
 
-        var handler = new TestClientHandler();
-        var client = new HttpClient(handler)
-        {
-            BaseAddress = Uri
-        };
-        var factory = A.Fake<IHttpClientFactory>();
-        A.CallTo(() => factory.CreateClient(clientNameCaptor))
-            .ReturnsLazily(() => client);
-        var resolverClient = new AppInsightsResolverClient(factory);
-
-        await resolverClient.Resolve(AppId, MetricId, parameters);
-
-        clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
-        handler.Request.Should().NotBeNull();
-        handler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
+        _clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
+        _testClientHandler.Request.Should().NotBeNull();
+        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
     }
 
     private static IEnumerable<object[]> PathTestData()
