@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace ApplicationCore.Models.AppInsights
+namespace ApplicationCore.Models.AppInsights.Queries
 {
     /// <summary> Contains the columns and rows for one table in a query response. </summary>
     public partial class Table
@@ -15,7 +15,7 @@ namespace ApplicationCore.Models.AppInsights
         /// <param name="columns"> The list of columns in this table. </param>
         /// <param name="rows"> The resulting rows from this query. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="columns"/>, or <paramref name="rows"/> is null. </exception>
-        internal Table(string name, IEnumerable<ApplicationCore.Models.AppInsights.Column> columns, IEnumerable<IList<string>> rows)
+        internal Table(string name, IEnumerable<Column> columns, IEnumerable<IList<string>> rows)
         {
             if (name == null)
             {
@@ -39,7 +39,7 @@ namespace ApplicationCore.Models.AppInsights
         /// <param name="name"> The name of the table. </param>
         /// <param name="columns"> The list of columns in this table. </param>
         /// <param name="rows"> The resulting rows from this query. </param>
-        internal Table(string name, IReadOnlyList<ApplicationCore.Models.AppInsights.Column> columns, IReadOnlyList<IList<string>> rows)
+        internal Table(string name, IReadOnlyList<Column> columns, IReadOnlyList<IList<string>> rows)
         {
             Name = name;
             Columns = columns;
@@ -49,7 +49,7 @@ namespace ApplicationCore.Models.AppInsights
         /// <summary> The name of the table. </summary>
         public string Name { get; }
         /// <summary> The list of columns in this table. </summary>
-        public IReadOnlyList<ApplicationCore.Models.AppInsights.Column> Columns { get; }
+        public IReadOnlyList<Column> Columns { get; }
         /// <summary> The resulting rows from this query. </summary>
         public IReadOnlyList<IList<string>> Rows { get; }
     }

@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace ApplicationCore.Models.AppInsights
+namespace ApplicationCore.Models.AppInsights.Queries
 {
     /// <summary> A column in a table. </summary>
     public partial class Column
