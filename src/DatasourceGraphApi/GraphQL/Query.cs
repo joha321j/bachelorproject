@@ -2,9 +2,9 @@
 
 public class Query
 {
-    private readonly ResolverClient _client;
+    private readonly AppInsightsResolverClient _client;
 
-    public Query(ResolverClient client)
+    public Query(AppInsightsResolverClient client)
     {
         _client = client;
     }

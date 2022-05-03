@@ -1,10 +1,10 @@
 ﻿namespace DatasourceGraphApi;
 
-public class ResolverClient
+public class AppInsightsResolverClient
 {
     private readonly IHttpClientFactory _clientFactory;
 
-    public ResolverClient(IHttpClientFactory clientFactory)
+    public AppInsightsResolverClient(IHttpClientFactory clientFactory)
     {
         _clientFactory = clientFactory;
     }
