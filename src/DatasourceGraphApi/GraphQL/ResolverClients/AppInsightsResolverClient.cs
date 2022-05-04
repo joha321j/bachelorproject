@@ -14,7 +14,7 @@ public class AppInsightsResolverClient
 
     public async Task<QueryResults?> Resolve(string appId, string query)
     {
-        var path = $"v1/apps/{appId}/query?query={query}";
+        var path = $"{appId}/query?query={query}";
         var client = _clientFactory.CreateClient("AppInsights");
 
         return await client.GetFromJsonAsync<QueryResults>(path);
@@ -25,14 +25,14 @@ public class AppInsightsResolverClient
         string metricId,
         List<KeyValuePair<string, string>> parameters)
     {
-        var path = CreatePath(appId, metricId, parameters);
+        var path = CreateMetricsPath(appId, metricId, parameters);
         var client = _clientFactory.CreateClient("AppInsights");
         return await client.GetFromJsonAsync<MetricsResultsItem>(path);
     }
 
-    private static string CreatePath(string appId, string metricId, List<KeyValuePair<string, string>> parameters)
+    private static string CreateMetricsPath(string appId, string metricId, List<KeyValuePair<string, string>> parameters)
     {
-        var path = $"v1/apps/{appId}/metrics/{metricId}";
+        var path = $"{appId}/metrics/{metricId}";
 
         var first = true;
         foreach (KeyValuePair<string, string> pair in parameters)

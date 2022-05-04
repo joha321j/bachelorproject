@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DatasourceGraphApi.GraphQL.ResolverClients;
-using FakeItEasy;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace DataSourceGraphApiTest.GraphQL.ResolverClients;
 
 public class AppInsightsResolverClientTest
 {
-    private static readonly Uri Uri = new("http://locohost:8080");
+    private const string BasePath = "/v1/apps/";
+    private static readonly Uri Uri = new($"https://www.example.com{BasePath}");
     private const string AppId = "TestAppId";
     private const string Query = "TestQuery";
     private const string MetricId = "TestMetricId";
-    private const string BasePath = $"/v1/apps/{AppId}";
+
 
     private readonly TestClientHandler _testClientHandler = new();
-    private readonly ArgumentCaptor<string> _clientNameCaptor = new();
+    private string _clientNameCaptor = string.Empty;
     private readonly AppInsightsResolverClient _resolverClient;
 
     public AppInsightsResolverClientTest()
@@ -27,23 +28,24 @@ public class AppInsightsResolverClientTest
         {
             BaseAddress = Uri
         };
-        var factory = A.Fake<IHttpClientFactory>();
-        A.CallTo(() => factory.CreateClient(_clientNameCaptor))
-            .Returns(client);
+        var mockFactory = new Mock<IHttpClientFactory>();
+        mockFactory.Setup(factory => factory.CreateClient(It.IsAny<string>()))
+            .Returns(client)
+            .Callback<string>(s => _clientNameCaptor = s);
 
-        _resolverClient = new AppInsightsResolverClient(factory);
+        _resolverClient = new AppInsightsResolverClient(mockFactory.Object);
     }
 
-    [Fact]
+    [Fact]  
     public async Task Resolve_Should_UseCorrectClient_When_GettingQueries()
     {
-        const string path = BasePath + $"/query?query={Query}";
+        const string path = $"{AppId}/query?query={Query}";
 
         await _resolverClient.Resolve(AppId, Query);
 
-        _clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
+        _clientNameCaptor.Should().BeEquivalentTo("AppInsights");
         _testClientHandler.Request.Should().NotBeNull();
-        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
+        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
     }
 
 
@@ -55,14 +57,14 @@ public class AppInsightsResolverClientTest
     {
         await _resolverClient.Resolve(AppId, MetricId, parameters);
 
-        _clientNameCaptor.Value.Should().BeEquivalentTo("AppInsights");
+        _clientNameCaptor.Should().BeEquivalentTo("AppInsights");
         _testClientHandler.Request.Should().NotBeNull();
-        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(path);
+        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
     }
 
     private static IEnumerable<object[]> PathTestData()
     {
-        const string basePath = BasePath + $"/metrics/{MetricId}";
+        const string basePath = $"{AppId}/metrics/{MetricId}";
         var parameters = new List<KeyValuePair<string, string>>
         {
             new("firstParameter", "Value"),
