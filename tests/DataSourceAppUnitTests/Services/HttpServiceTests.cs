@@ -26,14 +26,22 @@ public class HttpServiceTests
 
         _client = new HttpClient(_handlerMock.Object);
         _client.BaseAddress = new Uri("https://www.example.com/");
-
-        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype")
-            .ReturnsResponse(JsonSerializer.Serialize(FakeData.DataSources), "application/json");
+        
+        SetupRequests();
 
         var localStorageServiceMock = new Mock<ILocalStorageService>();
         localStorageServiceMock.SetupAllProperties();
 
         _sut = new HttpService(_client, localStorageServiceMock.Object);
+    }
+
+    private void SetupRequests()
+    {
+        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype")
+            .ReturnsResponse(JsonSerializer.Serialize(FakeData.DataSources), "application/json");
+        
+        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype")
+            .ReturnsResponse(JsonSerializer.Serialize(FakeData.DataSources), "application/json");
     }
 
     [Fact]
@@ -68,25 +76,30 @@ public class HttpServiceTests
             method = method.MakeGenericMethod(type!);
         }
 
-        var result = Activator.CreateInstance(type);
+        Task? result;
         
         if (value is null)
         {
-             result = (method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype" })!);
+             result = (Task) method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype" });
         }
         else
         {
-            result = (method.Invoke(_sut, new[] { _client.BaseAddress + "datatype", value })!);
+            result = (Task) method.Invoke(_sut, new[] { _client.BaseAddress + "datatype", value });
         }
 
-        if (result is Task task)
-        {
-            await task;
-        }
+        await result.ConfigureAwait(false);
+        var resultProp = result.GetType().GetProperty("Result");
+        var resultValue = resultProp.GetValue(result);
         
+        // if (result is Task task)
+        // {
+            // await task;
+        // }
+
         var methodType = typeof(HttpMethod).GetProperty(httpMethod)!.GetValue(typeof(HttpMethod));
         _handlerMock.VerifyRequest((HttpMethod)methodType!, _client.BaseAddress + "datatype", Times.Exactly(1));
-
-        result.Should().BeOfType(type);
+        
+        resultValue.Should().BeOfType(type);
+        
     }
 }

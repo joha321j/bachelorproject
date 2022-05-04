@@ -1,10 +1,8 @@
-using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
 using Serilog;
 
 namespace DataSourceApp.Services;
@@ -25,21 +23,15 @@ public interface IHttpService
 
 public class HttpService : IHttpService
 {
-    private HttpClient _httpClient;
-    private NavigationManager _navigationManager;
-    private ILocalStorageService _localStorageService;
-    private IConfiguration _configuration;
+    private readonly HttpClient _httpClient;
+    private readonly ILocalStorageService _localStorageService;
 
     public HttpService(
         HttpClient httpClient, 
-        NavigationManager navigationManager, 
-        ILocalStorageService localStorageService, 
-        IConfiguration configuration)
+        ILocalStorageService localStorageService)
     {
         _httpClient = httpClient;
-        _navigationManager = navigationManager;
         _localStorageService = localStorageService;
-        _configuration = configuration;
     }
 
     public async Task<T?> GetAsync<T>(string uri)
@@ -98,12 +90,6 @@ public class HttpService : IHttpService
     {
         using var response = await _httpClient.SendAsync(request);
 
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
-        {
-            _navigationManager.NavigateTo("account/logout");
-            return;
-        }
-
         await HandleErrorsAsync(response);
     }
 
@@ -112,12 +98,6 @@ public class HttpService : IHttpService
         Log.Information("Sending HttpRequestMessage: {@Request}", request);
         
         using var response = await _httpClient.SendAsync(request);
-
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
-        {
-            _navigationManager.NavigateTo("account/logout");
-            return default;
-        }
 
         await HandleErrorsAsync(response);
 
@@ -143,6 +123,7 @@ public class HttpService : IHttpService
     
     private static async Task HandleErrorsAsync(HttpResponseMessage response)
     {
+        
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();

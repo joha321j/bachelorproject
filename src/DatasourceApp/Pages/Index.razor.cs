@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace DataSourceApp.Pages;
 
-public partial class Index
+public partial class Index : ComponentBase
 {
     private DataSourceType? SelectedDataSourceType => DataSourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
 

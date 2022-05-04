@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Components;
+
 namespace DataSourceApp;
 
-public class App_razor
+public partial class App : ComponentBase
 {
-    
 }
