@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,10 +39,22 @@ public class HttpServiceTests
     private void SetupRequests()
     {
         _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype")
-            .ReturnsResponse(JsonSerializer.Serialize(FakeData.DataSources), "application/json");
+            .ReturnsResponse(HttpStatusCode.OK, JsonSerializer.Serialize(FakeData.DataSources), "application/json");
         
-        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype")
-            .ReturnsResponse(JsonSerializer.Serialize(FakeData.DataSources), "application/json");
+        _handlerMock.SetupRequest(HttpMethod.Post, _client.BaseAddress + "datatype")
+            .ReturnsResponse(HttpStatusCode.Created, JsonSerializer.Serialize(FakeData.DataSources[0]), "application/json");
+        
+        _handlerMock.SetupRequest(HttpMethod.Put, _client.BaseAddress + "datatype")
+            .ReturnsResponse(HttpStatusCode.Created, JsonSerializer.Serialize(FakeData.DataSources[0]), "application/json");
+        
+        _handlerMock.SetupRequest(HttpMethod.Delete, _client.BaseAddress + "datatype")
+            .ReturnsResponse(HttpStatusCode.OK, JsonSerializer.Serialize(FakeData.DataSources[0]), "application/json");
+        
+        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype/badRequest")
+            .ReturnsResponse(HttpStatusCode.BadRequest);
+        
+        _handlerMock.SetupRequest(HttpMethod.Get, _client.BaseAddress + "datatype/badRequestWithMessage")
+            .ReturnsResponse(HttpStatusCode.BadRequest, "{\"message\":\"Bad Request was given\"}");
     }
 
     [Fact]
@@ -55,51 +68,76 @@ public class HttpServiceTests
     }
 
     [Theory]
-    [InlineData(nameof(HttpService.GetAsync), "Get", true, null, typeof(List<DataSource>))]
-    [InlineData(nameof(HttpService.PostAsync), "Post", false, "test", typeof(List<DataSource>))]
-    [InlineData(nameof(HttpService.PostAsync), "Post", true, "test", typeof(List<DataSource>))]
+    [InlineData(nameof(HttpService.GetAsync), "Get", true, false, typeof(List<DataSource>))]
+    [InlineData(nameof(HttpService.PostAsync), "Post", false, true, null)]
+    [InlineData(nameof(HttpService.PostAsync), "Post", true, true, typeof(DataSource))]
+    [InlineData(nameof(HttpService.PutAsync), "Put", false, true, null)]
+    [InlineData(nameof(HttpService.PutAsync), "Put", true, true, typeof(DataSource))]
+    [InlineData(nameof(HttpService.DeleteAsync), "Delete", false, false, null)]
+    [InlineData(nameof(HttpService.DeleteAsync), "Delete", true, false, typeof(DataSource))]
     public async Task SendsRequest_when_CallingMethod(
         string methodName,
         string httpMethod,
         bool isGenericMethod = false,
-        object? value = null,
-        Type? type = null)
+        bool sendFakeObject = false,
+        Type? returnType = null)
     {
         var method = _sut
             .GetType()
             .GetMethods()
             .First(m => m.IsGenericMethodDefinition == isGenericMethod
                         && m.Name == methodName);
-
+        
         if (isGenericMethod)
         {
-            method = method.MakeGenericMethod(type!);
+            method = method.MakeGenericMethod(returnType!);
         }
 
         Task? result;
         
-        if (value is null)
+        if (sendFakeObject)
         {
-             result = (Task) method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype" });
+            var valueObj = FakeData.DataSources[0];
+            var value = JsonSerializer.Serialize(valueObj);
+            result = (Task) method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype", value })!;
         }
         else
         {
-            result = (Task) method.Invoke(_sut, new[] { _client.BaseAddress + "datatype", value });
+            result = (Task) method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype" })!;
         }
 
-        await result.ConfigureAwait(false);
+        await result!.ConfigureAwait(false);
         var resultProp = result.GetType().GetProperty("Result");
-        var resultValue = resultProp.GetValue(result);
+        var resultValue = resultProp?.GetValue(result);
         
-        // if (result is Task task)
-        // {
-            // await task;
-        // }
-
         var methodType = typeof(HttpMethod).GetProperty(httpMethod)!.GetValue(typeof(HttpMethod));
         _handlerMock.VerifyRequest((HttpMethod)methodType!, _client.BaseAddress + "datatype", Times.Exactly(1));
+
+        if (returnType is not null)
+        {
+            resultValue.Should().BeOfType(returnType);
+        }
+    }
+
+    [Fact]
+    public async Task ThrowsException_when_InvalidCall()
+    {
         
-        resultValue.Should().BeOfType(type);
+        Func<Task> act = async() => await _sut.GetAsync<List<DataSource>>(_client.BaseAddress + "datatype/badRequest");
+        await act
+            .Should()
+            .ThrowAsync<HttpRequestException>()
+            .WithMessage("Response was: Bad Request");
+    }
+    
+    [Fact]
+    public async Task ThrowsExceptionWithMessage_when_InvalidCall()
+    {
         
+        Func<Task> act = async() => await _sut.GetAsync<List<DataSource>>(_client.BaseAddress + "datatype/badRequestWithMessage");
+        await act
+            .Should()
+            .ThrowAsync<HttpRequestException>()
+            .WithMessage("Bad Request was given");
     }
 }

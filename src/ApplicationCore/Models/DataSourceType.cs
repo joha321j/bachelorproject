@@ -5,13 +5,13 @@ namespace ApplicationCore.Models;
 
 public class DataSourceType
 {
-    [JsonPropertyName("datasourceTypeId")]
+    [JsonPropertyName("dataSourceTypeId")]
     public int Id { get; set; }
     
-    [JsonPropertyName("datasourceTypeName")]
+    [JsonPropertyName("dataSourceTypeName")]
     public string Name { get; set; } = null!;
 
-    [JsonPropertyName("datasourceTypeFields")]
+    [JsonPropertyName("dataSourceTypeFields")]
     public List<InputSection>? Fields { get; set; }
 
     public override string ToString()

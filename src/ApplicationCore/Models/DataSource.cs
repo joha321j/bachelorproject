@@ -4,9 +4,9 @@ namespace ApplicationCore.Models;
 
 public class DataSource
 {
-    [JsonPropertyName("datasourceName")]
+    [JsonPropertyName("dataSourceName")]
     public string Name { get; set; } = null!;
 
-    [JsonPropertyName("datasourceType")]
+    [JsonPropertyName("dataSourceType")]
     public DataSourceType DataSourceType { get; set; } = null!;
 }
