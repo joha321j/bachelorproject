@@ -33,6 +33,9 @@ public class HttpServiceTests
         var localStorageServiceMock = new Mock<ILocalStorageService>();
         localStorageServiceMock.SetupAllProperties();
 
+        localStorageServiceMock.Setup(l => l.GetItem<string>(It.IsAny<string>()))
+            .Returns(Task.FromResult("FAKE-JWT-TOKEN")!);
+
         _sut = new HttpService(_client, localStorageServiceMock.Object);
     }
 
@@ -139,5 +142,17 @@ public class HttpServiceTests
             .Should()
             .ThrowAsync<HttpRequestException>()
             .WithMessage("Bad Request was given");
+    }
+
+    [Fact]
+    public async Task AddsJwtToken_when_TokenExists_and_IsApi()
+    {
+        var request = new HttpRequestMessage();
+        request.RequestUri = new Uri("datatype", UriKind.Relative);
+        
+        await _sut.AddJwtHeaderAsync(request);
+        
+        request.Headers.Authorization.Should().NotBeNull();
+        request.Headers.Authorization!.Parameter.Should().Be("FAKE-JWT-TOKEN");
     }
 }
