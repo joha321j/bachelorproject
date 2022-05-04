@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Models.AppInsights.Metrics;
+﻿using System.Xml;
+using ApplicationCore.Models.AppInsights.Events;
+using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
 
 namespace DatasourceGraphApi.GraphQL.ResolverClients;
@@ -16,7 +18,6 @@ public class AppInsightsResolverClient
     {
         var path = $"{appId}/query?query={query}";
         var client = _clientFactory.CreateClient("AppInsights");
-
         return await client.GetFromJsonAsync<QueryResults>(path);
     }
 
@@ -30,7 +31,10 @@ public class AppInsightsResolverClient
         return await client.GetFromJsonAsync<MetricsResultsItem>(path);
     }
 
-    private static string CreateMetricsPath(string appId, string metricId, List<KeyValuePair<string, string>> parameters)
+    private static string CreateMetricsPath(
+        string appId,
+        string metricId,
+        List<KeyValuePair<string, string>> parameters)
     {
         var path = $"{appId}/metrics/{metricId}";
 
@@ -51,5 +55,21 @@ public class AppInsightsResolverClient
         }
 
         return path;
+    }
+
+    public async Task<EventsResults?> Resolve(
+        string appId,
+        string eventType,
+        string eventId,
+        TimeSpan timeSpan = default)
+    {
+        var path = $"{appId}/events/{eventType}/{eventId}";
+        if (timeSpan != TimeSpan.Zero)
+        {
+            path += $"?timespan={XmlConvert.ToString(timeSpan)}";
+        }
+
+        var client = _clientFactory.CreateClient("AppInsights");
+        return await client.GetFromJsonAsync<EventsResults>(path);
     }
 }

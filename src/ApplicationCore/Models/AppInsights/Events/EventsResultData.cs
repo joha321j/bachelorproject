@@ -29,7 +29,20 @@ namespace ApplicationCore.Models.AppInsights.Events
         /// <param name="ai"> AI info of the event. </param>
         /// <param name="application"> Application info of the event. </param>
         /// <param name="client"> Client info of the event. </param>
-        internal EventsResultData(string id, EventType type, long? count, DateTimeOffset? timestamp, EventsResultDataCustomDimensions customDimensions, EventsResultDataCustomMeasurements customMeasurements, EventsOperationInfo operation, EventsSessionInfo session, EventsUserInfo user, EventsCloudInfo cloud, EventsAiInfo ai, EventsApplicationInfo application, EventsClientInfo client)
+        internal EventsResultData(
+            string id,
+            EventType type,
+            long? count,
+            DateTimeOffset? timestamp,
+            EventsResultDataCustomDimensions customDimensions,
+            EventsResultDataCustomMeasurements customMeasurements,
+            EventsOperationInfo operation,
+            EventsSessionInfo session,
+            EventsUserInfo user,
+            EventsCloudInfo cloud,
+            EventsAiInfo ai,
+            EventsApplicationInfo application,
+            EventsClientInfo client)
         {
             Id = id;
             Type = type;

@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Models.AppInsights.Metrics;
+﻿using ApplicationCore.Models.AppInsights.Events;
+using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
 using DatasourceGraphApi.GraphQL.ResolverClients;
 
@@ -18,12 +19,22 @@ public class Query
         return await _appInsightsResolverClient.Resolve(appId, queryParam);
     }
 
-    public async Task<MetricsResultsItem?> GetMetricResults(
+    public async Task<MetricsResultsItem?> GetMetricsResultsItem(
         string appId,
         string metricId,
         List<KeyValuePair<string, string>> parameters)
     {
         return await _appInsightsResolverClient
             .Resolve(appId, metricId, parameters);
+    }
+
+    public async Task<EventsResults?> GetEventsResult(
+        string appId,
+        string eventType,
+        string eventId,
+        TimeSpan timeSpan = default)
+    {
+        return await _appInsightsResolverClient
+            .Resolve(appId, eventType, eventId, timeSpan);
     }
 }   
