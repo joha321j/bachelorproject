@@ -22,7 +22,7 @@ public class Query
     public async Task<MetricsResultsItem?> GetMetricsResultsItem(
         string appId,
         string metricId,
-        List<KeyValuePair<string, string>> parameters)
+        List<KeyValuePair<string, string>>? parameters)
     {
         return await _appInsightsResolverClient
             .Resolve(appId, metricId, parameters);

@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 using ApplicationCore.Models;
+using ApplicationCore.Models.AppInsights.Events;
+using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
 
 namespace ApplicationCore.Services;
@@ -33,7 +35,7 @@ public static class FakeData
         new("TestTable", 
             new List<Column>
             {
-                new(name: "TestColumn", type: "Name")
+                new("TestColumn", "Name")
             },
             new List<IList<string>>
             {
@@ -48,5 +50,16 @@ public static class FakeData
             })
     });
 
+    public static MetricsResult MetricsResults => new()
+    {
+        Value = new MetricsResultInfo()
+    };
+
+    public static EventsResults EventsResults => new()
+    {
+
+    };
+
     public static string DatasourcesJsonText => JsonSerializer.Serialize(DataSources);
+
 }

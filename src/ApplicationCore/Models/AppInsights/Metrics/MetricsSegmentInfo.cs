@@ -13,7 +13,7 @@ namespace ApplicationCore.Models.AppInsights.Metrics
     public partial class MetricsSegmentInfo
     {
         /// <summary> Initializes a new instance of MetricsSegmentInfo. </summary>
-        internal MetricsSegmentInfo()
+        public MetricsSegmentInfo()
         {
             Segments = new List<MetricsSegmentInfo>();
             AdditionalProperties = new Dictionary<string, string>();
@@ -24,7 +24,7 @@ namespace ApplicationCore.Models.AppInsights.Metrics
         /// <param name="end"> Start time of the metric segment (only when an interval was specified). </param>
         /// <param name="segments"> Segmented metric data (if further segmented). </param>
         /// <param name="additionalProperties"> . </param>
-        internal MetricsSegmentInfo(string start, string end, IReadOnlyList<MetricsSegmentInfo> segments, 
+        public MetricsSegmentInfo(string start, string end, IReadOnlyList<MetricsSegmentInfo> segments, 
         IReadOnlyDictionary<string, string> additionalProperties)
         {
             Start = start;

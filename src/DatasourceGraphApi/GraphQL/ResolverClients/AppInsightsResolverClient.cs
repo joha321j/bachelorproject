@@ -24,7 +24,7 @@ public class AppInsightsResolverClient
     public async Task<MetricsResultsItem?> Resolve(
         string appId,
         string metricId,
-        List<KeyValuePair<string, string>> parameters)
+        List<KeyValuePair<string, string>>? parameters)
     {
         var path = CreateMetricsPath(appId, metricId, parameters);
         var client = _clientFactory.CreateClient("AppInsights");
@@ -34,11 +34,13 @@ public class AppInsightsResolverClient
     private static string CreateMetricsPath(
         string appId,
         string metricId,
-        List<KeyValuePair<string, string>> parameters)
+        List<KeyValuePair<string, string>>? parameters)
     {
         var path = $"{appId}/metrics/{metricId}";
 
         var first = true;
+        if (parameters == null) return path;
+        
         foreach (KeyValuePair<string, string> pair in parameters)
         {
             if (first)

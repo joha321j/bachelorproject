@@ -11,18 +11,18 @@ namespace ApplicationCore.Models.AppInsights.Metrics
     public partial class MetricsResult
     {
         /// <summary> Initializes a new instance of MetricsResult. </summary>
-        internal MetricsResult()
+        public MetricsResult()
         {
         }
 
         /// <summary> Initializes a new instance of MetricsResult. </summary>
         /// <param name="value"> A metric result data. </param>
-        internal MetricsResult(MetricsResultInfo value)
+        public MetricsResult(MetricsResultInfo value)
         {
             Value = value;
         }
 
         /// <summary> A metric result data. </summary>
-        public MetricsResultInfo Value { get; }
+        public MetricsResultInfo Value { get; set; }
     }
 }

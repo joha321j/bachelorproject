@@ -10,12 +10,18 @@ namespace ApplicationCore.Models.AppInsights.Metrics
     /// <summary> The MetricsResultsItem. </summary>
     public partial class MetricsResultsItem
     {
+
+        public MetricsResultsItem()
+        {
+            
+        }
+        
         /// <summary> Initializes a new instance of MetricsResultsItem. </summary>
         /// <param name="id"> The specified ID for this metric. </param>
         /// <param name="status"> The HTTP status code of this metric query. </param>
         /// <param name="body"> The results of this metric query. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
-        internal MetricsResultsItem(string id, int status, MetricsResult body)
+        public MetricsResultsItem(string id, int status, MetricsResult body)
         {
             if (id == null)
             {

@@ -23,19 +23,40 @@ public class FakeInsightHandler : HttpClientHandler
 
         var paths = path?.Split('/');
 
-        if (paths != null && paths.Contains("v1") && paths.Contains("apps") && method == HttpMethod.Get)
-            return await GetAppInsightsData();
+        if (paths == null ||
+            method != HttpMethod.Get ||
+            !paths[1].Equals("v1") ||
+            !paths[2].Equals("apps"))
+            return await base.SendAsync(request, cancellationToken);
 
-        return await base.SendAsync(request, cancellationToken);
+        return paths[4] switch
+        {
+            "query" => await GetQueryData(),
+            "metrics" => await GetMetricsData(),
+            "events" => await GetEventsData(),
+            _ => await base.SendAsync(request, cancellationToken)
+        };
     }
-
-    private async Task<HttpResponseMessage> GetAppInsightsData()
+        
+    private async Task<HttpResponseMessage> GetQueryData()
     {
         var data = FakeData.QueryResults;
 
         return await Ok(data);
     }
     
+    private async Task<HttpResponseMessage> GetMetricsData()
+    {
+        var data = FakeData.MetricsResults;
+
+        return await Ok(data);
+    }
+    
+    private async Task<HttpResponseMessage> GetEventsData()
+    {
+        var data = FakeData.EventsResults;
+        return await Ok(data);
+    }
 
     private async Task<HttpResponseMessage> Ok(object? body = null)
     {
