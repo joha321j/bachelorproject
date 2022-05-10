@@ -70,6 +70,15 @@ public class HttpServiceTests
         _handlerMock.VerifyRequest(HttpMethod.Get, _client.BaseAddress + "datatype", Times.Exactly(1));
     }
 
+    public class SendsRequest
+    {
+        [Fact]
+        public void when_CallingMethod()
+        {
+            
+        }
+    }
+
     [Theory]
     [InlineData(nameof(HttpService.GetAsync), "Get", true, false, typeof(List<DataSource>))]
     [InlineData(nameof(HttpService.PostAsync), "Post", false, true, null)]

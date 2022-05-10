@@ -112,22 +112,30 @@ public class HttpService : IHttpService
         return await response.Content.ReadFromJsonAsync<T>(options);
     }
 
-    private async Task AddJwtHeaderAsync(HttpRequestMessage request)
+    public async Task AddJwtHeaderAsync(HttpRequestMessage request)
     {
         var token = await _localStorageService.GetItem<string>("jwtToken");
-        var isApiUrl = !request.RequestUri!.IsAbsoluteUri;
+        var isApiUrl = request.RequestUri != null && !request.RequestUri.IsAbsoluteUri;
 
-        if (string.IsNullOrWhiteSpace(token) && isApiUrl)
+        if (!string.IsNullOrWhiteSpace(token) && isApiUrl)
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
     
     private static async Task HandleErrorsAsync(HttpResponseMessage response)
     {
-        
-        if (!response.IsSuccessStatusCode)
+        switch (response.IsSuccessStatusCode)
         {
-            var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-            throw new Exception(error?["message"]);
+            case false when response.Content.Headers.ContentLength > 0:
+            {
+                var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                throw new HttpRequestException(error?["message"]);
+            }
+            
+            case false:
+            {
+                var reason = response.ReasonPhrase;
+                throw new HttpRequestException($"Response was: {reason}");
+            }
         }
     }
 }
