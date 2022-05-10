@@ -2,7 +2,6 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using ApplicationCore.Models;
-using ApplicationCore.Services;
 using Serilog;
 
 namespace DataSourceApp.Services;
@@ -32,8 +31,8 @@ public class FakeBackendHandler : HttpClientHandler
 
         return path switch
         {
-            "/datasource" when method == HttpMethod.Get => await GetAllDatasourcesAsync(),
-            "/datatype" when method == HttpMethod.Get => await GetAllDatasourceTypesAsync(),
+            "/datasource" when method == HttpMethod.Get => await GetAllDataSourcesAsync(),
+            "/datatype" when method == HttpMethod.Get => await GetAllDataSourceTypesAsync(),
             _ => await BaseSendAsync(request, cancellationToken)
         };
     }
@@ -46,20 +45,18 @@ public class FakeBackendHandler : HttpClientHandler
         return await base.SendAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> GetAllDatasourceTypesAsync()
+    private async Task<HttpResponseMessage> GetAllDataSourceTypesAsync()
     {
-        var types = await _localStorageService.GetItem<List<DataSourceType>>("datasourceTypes")
-                    ?? FakeData.DataSourceTypes;
+        var types = await _localStorageService.GetItem<List<DataSourceType>>("dataSourceTypes");
 
         return await OkAsync(types);
     }
     
-    private async Task<HttpResponseMessage> GetAllDatasourcesAsync()
+    private async Task<HttpResponseMessage> GetAllDataSourcesAsync()
     {
-        var datasources = await _localStorageService.GetItem<List<DataSource>>("datasources")
-                          ?? FakeData.DataSources;
+        var dataSources = await _localStorageService.GetItem<List<DataSource>>("dataSources");
 
-        return await OkAsync(datasources);
+        return await OkAsync(dataSources);
     }
 
     private async Task<HttpResponseMessage> OkAsync(object? body = null)
