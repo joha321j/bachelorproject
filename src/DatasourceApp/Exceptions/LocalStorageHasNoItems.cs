@@ -1,10 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DataSourceApp.Exceptions;
 
-public class LocalStorageItemNotFoundException : Exception
+public class LocalStorageHasNoItems : Exception
 {
-    public LocalStorageItemNotFoundException(string key)
+    public LocalStorageHasNoItems(string key)
     {
         Message = $"The key: '{key}', could not be found in the LocalStorage";
     }
@@ -22,5 +22,5 @@ public class LocalStorageItemNotFoundException : Exception
     }
     
     [DoesNotReturn]
-    private static void Throw(string key) => throw new LocalStorageItemNotFoundException(key);
+    private static void Throw(string key) => throw new LocalStorageHasNoItems(key);
 }

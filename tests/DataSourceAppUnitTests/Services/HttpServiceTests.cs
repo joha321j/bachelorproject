@@ -34,7 +34,7 @@ public class HttpServiceTests
         localStorageServiceMock.SetupAllProperties();
 
         localStorageServiceMock.Setup(l => l.GetItem<string>(It.IsAny<string>()))
-            .Returns(Task.FromResult("FAKE-JWT-TOKEN")!);
+            .Returns(Task.FromResult("FAKE-JWT-TOKEN"));
 
         _sut = new HttpService(_client, localStorageServiceMock.Object);
     }
@@ -68,15 +68,6 @@ public class HttpServiceTests
         dataSourceTypes.Should().NotBeNull();
         dataSourceTypes!.Count.Should().Be(1);
         _handlerMock.VerifyRequest(HttpMethod.Get, _client.BaseAddress + "datatype", Times.Exactly(1));
-    }
-
-    public class SendsRequest
-    {
-        [Fact]
-        public void when_CallingMethod()
-        {
-            
-        }
     }
 
     [Theory]
@@ -118,7 +109,7 @@ public class HttpServiceTests
             result = (Task) method.Invoke(_sut, new object?[] { _client.BaseAddress + "datatype" })!;
         }
 
-        await result!.ConfigureAwait(false);
+        await result.ConfigureAwait(false);
         var resultProp = result.GetType().GetProperty("Result");
         var resultValue = resultProp?.GetValue(result);
         
