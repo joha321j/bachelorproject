@@ -37,10 +37,8 @@ public class IndexTests : IDisposable
     }
 
     [Fact]
-    public async Task Renders_DataSourceTypes_AsOptions()
-    {
-        _testOutputHelper.WriteLine("MARKUP:\n" + _cut.Markup);
-
+    public void Renders_DataSourceTypes_AsOptions()
+    { 
         var options = _cut.FindAll("option");
 
         _cut.RenderCount.Should().Be(1);
