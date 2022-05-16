@@ -11,13 +11,13 @@ steps:
   displayName: Restore NuGet packages
   inputs:
     command: restore
-    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+    projects: '$(Build.SourcesDirectory)/src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
-    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+    projects: '$(Build.SourcesDirectory)/src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
     arguments: '-c ${{ parameters.buildConfiguration }} -f $(dotnetFramework)'
 
 - task: DotNetCoreCLI@2
@@ -33,7 +33,7 @@ steps:
   displayName: Dotnet Publish
   inputs:
     command: publish
-    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+    projects: '$(Build.SourcesDirectory)/src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
     arguments: '-c ${{ parameters.buildConfiguration }} -f $(dotnetFramework) -o $(Agent.BuildDirectory)/${{ parameters.projectName }}/publish --no-build'
     publishWebProjects: false
 
