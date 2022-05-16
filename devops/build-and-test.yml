@@ -5,8 +5,6 @@ parameters:
     default: 'none'
   - name: dotnetFramework
     default: 'net6.0'
-  - name: isMain
-    default: 'false'
 
 steps:
   - task: DotNetCoreCLI@2
@@ -41,6 +39,7 @@ steps:
       publishWebProjects: false
   
   - task: PublishBuildArtifacts@1
+    dependsOn: Dotnet Publish
     inputs:
       PathToPublish: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/publish'
       ArtifactName: ${{ parameters.projectName }}
