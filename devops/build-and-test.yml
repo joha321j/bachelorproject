@@ -39,7 +39,7 @@ steps:
       publishWebProjects: false
   
   - task: PublishBuildArtifacts@1
-    condition: succeeded()
+    condition: and(succeeded(), eq(variables.isMain, 'true'))
     inputs:
       PathToPublish: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/publish'
       ArtifactName: ${{ parameters.projectName }}
