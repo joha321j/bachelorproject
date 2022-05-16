@@ -1,15 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ApplicationCore.Models;
 
 public class DataSourceType
 {
-    [JsonPropertyName("datasourceId")]
+    [JsonPropertyName("dataSourceTypeId")]
     public int Id { get; set; }
     
-    [JsonPropertyName("datasourceTypeName")]
+    [JsonPropertyName("dataSourceTypeName")]
     public string Name { get; set; } = null!;
 
-    [JsonPropertyName("datasourceFields")]
-    public List<InputField>? Fields { get; set; }
+    [JsonPropertyName("dataSourceTypeFields")]
+    public List<InputSection>? Fields { get; set; }
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
+    }
 }
