@@ -4,19 +4,19 @@ using Microsoft.AspNetCore.Components;
 
 namespace DataSourceApp.Pages;
 
-public partial class Index : ComponentBase
+public partial class Index
 {
     private DataSourceType? SelectedDataSourceType => DataSourceTypes.FirstOrDefault(d => d.Id == SelectedDatasourceTypeId);
-
+    
     [Inject]
     private IHttpService Client { get; set; } = null!;
-
+    
     private List<DataSourceType> DataSourceTypes { get; set; } = new();
-
+    
     private int SelectedDatasourceTypeId { get; set; }
-
-    private DataSource _newDataSource = new();
-
+    
+    private readonly DataSource _newDataSource = new();
+    
     protected override async Task OnInitializedAsync()
     {
         DataSourceTypes = await Client.GetAsync<List<DataSourceType>>("datatype")
@@ -24,7 +24,8 @@ public partial class Index : ComponentBase
         
         await base.OnInitializedAsync();
     }
-
+    
+    
     private static void OnValidSubmit()
     {
         
