@@ -16,7 +16,7 @@ public class Query
 
     public async Task<QueryResults?> GetQueryResults(string appId, string queryParam)
     {
-        return await _appInsightsResolverClient.Resolve(appId, queryParam);
+        return await _appInsightsResolverClient.ResolveQuery(appId, queryParam);
     }
 
     public async Task<MetricsResultsItem?> GetMetricsResultsItem(
@@ -25,7 +25,7 @@ public class Query
         List<KeyValuePair<string, string>>? parameters)
     {
         return await _appInsightsResolverClient
-            .Resolve(appId, metricId, parameters);
+            .ResolveMetrics(appId, metricId, parameters);
     }
 
     public async Task<EventsResults?> GetEventsResult(
@@ -35,6 +35,6 @@ public class Query
         TimeSpan timeSpan = default)
     {
         return await _appInsightsResolverClient
-            .Resolve(appId, eventType, eventId, timeSpan);
+            .ResolveEvents(appId, eventType, eventId, timeSpan);
     }
 }   
