@@ -28,7 +28,8 @@ public class AppInsightsResolverClient
     {
         var path = CreateMetricsPath(appId, metricId, parameters);
         var client = _clientFactory.CreateClient("AppInsights");
-        return await client.GetFromJsonAsync<MetricsResultsItem>(path);
+        var response = await client.GetFromJsonAsync<MetricsResultsItem>(path);
+        return response;
     }
 
     private static string CreateMetricsPath(

@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using DatasourceGraphApi.GraphQL.ResolverClients;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using Moq;
+using Moq.Contrib.HttpClient;
 using Xunit;
 
 namespace DataSourceGraphApiTest.GraphQL.ResolverClients;
@@ -18,17 +21,24 @@ public class AppInsightsResolverClientTest
     private const string AppId = "TestAppId";
     private const string MetricId = "TestMetricId";
 
-
-    private readonly TestClientHandler _testClientHandler = new();
+    private HttpRequestMessage _requestCaptor = new();
     private string _clientNameCaptor = string.Empty;
     private readonly AppInsightsResolverClient _resolverClient;
 
     public AppInsightsResolverClientTest()
     {
-        var client = new HttpClient(_testClientHandler)
-        {
-            BaseAddress = Uri
-        };
+        var clientHandler = new Mock<HttpMessageHandler>();
+        clientHandler
+            .SetupAnyRequest()
+            .ReturnsResponse(
+                JsonSerializer.Serialize(default(object)),
+                "application/json")
+            .Callback<HttpRequestMessage, CancellationToken>(
+                (r, _) => _requestCaptor = r);
+        
+        var client = clientHandler.CreateClient();
+        client.BaseAddress = Uri;
+        
         var mockFactory = new Mock<IHttpClientFactory>();
         mockFactory.Setup(factory => factory.CreateClient(It.IsAny<string>()))
             .Returns(client)
@@ -46,8 +56,8 @@ public class AppInsightsResolverClientTest
         await _resolverClient.Resolve(AppId, query);
 
         _clientNameCaptor.Should().BeEquivalentTo(ClientName);
-        _testClientHandler.Request.Should().NotBeNull();
-        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
+        _requestCaptor.RequestUri.Should().NotBeNull();
+        _requestCaptor.RequestUri!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
     }
 
 
@@ -60,8 +70,8 @@ public class AppInsightsResolverClientTest
         await _resolverClient.Resolve(AppId, MetricId, parameters);
 
         _clientNameCaptor.Should().BeEquivalentTo(ClientName);
-        _testClientHandler.Request.Should().NotBeNull();
-        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
+        _requestCaptor.RequestUri.Should().NotBeNull();
+        _requestCaptor.RequestUri!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
     }
 
     private static IEnumerable<object[]> PathTestData()
@@ -106,8 +116,8 @@ public class AppInsightsResolverClientTest
         await _resolverClient.Resolve(AppId, eventType, eventId, span);
 
         _clientNameCaptor.Should().BeEquivalentTo(ClientName);
-        _testClientHandler.Request.Should().NotBeNull();
-        _testClientHandler.Request!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
+        _requestCaptor.RequestUri.Should().NotBeNull();
+        _requestCaptor.RequestUri!.PathAndQuery.Should().BeEquivalentTo(BasePath + path);
     }
 
     private static IEnumerable<object[]> EventPathTestData()
