@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{20505298-69C5-4C11-9FFA-073585F07446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatasourceApp", "src\DatasourceApp\DatasourceApp.csproj", "{B1DC8348-2742-4435-957A-118E842B4E2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceApp", "src\DataSourceApp\DataSourceApp.csproj", "{B1DC8348-2742-4435-957A-118E842B4E2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatasourceGraphApi", "src\DatasourceGraphApi\DatasourceGraphApi.csproj", "{613D8D08-133E-471D-8582-86BE79CCB8CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceGraphApi", "src\DataSourceGraphApi\DataSourceGraphApi.csproj", "{613D8D08-133E-471D-8582-86BE79CCB8CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{EE2EF885-D960-46FD-B649-F266A0905273}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{1BADFD9D-9
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore", "src\ApplicationCore\ApplicationCore.csproj", "{75B5491E-C63F-44ED-AC04-9D340E4ACA92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceAppUnitTests", "tests\DataSourceAppUnitTests\DataSourceAppUnitTests.csproj", "{20F7475C-FBB4-4E61-A662-EA26F8F36C62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +48,15 @@ Global
 		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75B5491E-C63F-44ED-AC04-9D340E4ACA92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F7475C-FBB4-4E61-A662-EA26F8F36C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F7475C-FBB4-4E61-A662-EA26F8F36C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F7475C-FBB4-4E61-A662-EA26F8F36C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F7475C-FBB4-4E61-A662-EA26F8F36C62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B1DC8348-2742-4435-957A-118E842B4E2A} = {20505298-69C5-4C11-9FFA-073585F07446}
 		{613D8D08-133E-471D-8582-86BE79CCB8CF} = {20505298-69C5-4C11-9FFA-073585F07446}
 		{75B5491E-C63F-44ED-AC04-9D340E4ACA92} = {20505298-69C5-4C11-9FFA-073585F07446}
+		{20F7475C-FBB4-4E61-A662-EA26F8F36C62} = {7141AED9-D5C4-4C81-80B6-538C78CB31B8}
 	EndGlobalSection
 EndGlobal

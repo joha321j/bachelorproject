@@ -1,7 +1,8 @@
+using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using DatasourceApp;
-using DatasourceApp.Services;
+using DataSourceApp;
+using DataSourceApp.Services;
 using Serilog;
 using Serilog.Core;
 
@@ -18,16 +19,21 @@ Log.Information("Hello, browser!");
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(p =>
+        p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+    )
+);
 
 builder.Services
     .AddScoped<IHttpService, HttpService>()
-    .AddScoped<ILocalStorageService, LocalStorageService>();
+    .AddScoped<ILocalStorageService, LocalStorageService>()
+    .AddBlazoredModal();
 
 builder.Services.AddScoped(serviceProvider =>
 {
-    var apiUrl = new Uri(builder.Configuration["ApiUrl"]
-                         ?? throw new ArgumentNullException());
+    var apiUrl = new Uri(uriString: builder.Configuration.GetSection("ApiUrl").Value)
+                         ?? throw new ArgumentNullException();
 
     if (builder.Configuration["UseFakeBackend"] != "true")
         return new HttpClient { BaseAddress = apiUrl };
@@ -39,4 +45,13 @@ builder.Services.AddScoped(serviceProvider =>
 
 });
 
-await builder.Build().RunAsync();
+try
+{
+    var app = builder.Build();
+    await app.RunAsync();
+}
+catch (Exception e)
+{
+    Log.Fatal(e, "An exception occurred while creating the WASM host");
+    throw;
+}

@@ -1,4 +1,4 @@
-name: meta-datasources
+name: Meta-DataSources
 
 ingress:
   - name: ingress
@@ -17,11 +17,11 @@ ingress:
 
 services:
   - name: Frontend
-    project: src/DatasourceApp/DatasourceApp.csproj
+    project: src/DataSourceApp/DataSourceApp.csproj
     tags: ["frontend"]
     
   - name: Backend
-    project: src/DatasourceGraphApi/DatasourceGraphApi.csproj
+    project: src/DataSourceGraphApi/DataSourceGraphApi.csproj
     tags: ["backend"]
 
   - name: PostgreSQL

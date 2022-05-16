@@ -2,56 +2,69 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using ApplicationCore.Models;
-using ApplicationCore.Services;
+using Serilog;
 
-namespace DatasourceApp.Services;
+namespace DataSourceApp.Services;
 
 public class FakeBackendHandler : HttpClientHandler
 {
-    private ILocalStorageService _localStorageService;
-
-    private List<Datasource> _datasources;
+    private readonly ILocalStorageService _localStorageService;
 
     public FakeBackendHandler(ILocalStorageService localStorageService)
     {
         _localStorageService = localStorageService;
-        _datasources = new List<Datasource>();
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        return await HandleRoute(request, cancellationToken);
+        return await HandleRouteAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> HandleRoute(
+    private async Task<HttpResponseMessage> HandleRouteAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
         var method = request.Method;
         var path = request.RequestUri?.AbsolutePath;
 
-        if (path == "datasource" && method == HttpMethod.Get)
-            return await GetAllDatasources();
+        return path switch
+        {
+            "/datasource" when method == HttpMethod.Get => await GetAllDataSourcesAsync(),
+            "/datatype" when method == HttpMethod.Get => await GetAllDataSourceTypesAsync(),
+            _ => await BaseSendAsync(request, cancellationToken)
+        };
+    }
 
+    private async Task<HttpResponseMessage> BaseSendAsync(
+        HttpRequestMessage request,
+        CancellationToken cancellationToken)
+    {
+        Log.Warning("Could not find a local fake path corresponding to {Path}... Calling API instead", request.RequestUri?.AbsolutePath);
         return await base.SendAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> GetAllDatasources()
+    private async Task<HttpResponseMessage> GetAllDataSourceTypesAsync()
     {
-        var datasources = await _localStorageService.GetItem<List<Datasource>>("datasources")
-                          ?? FakeData.Datasources;
+        var types = await _localStorageService.GetItem<List<DataSourceType>>("dataSourceTypes");
 
-        return await Ok(datasources);
+        return await OkAsync(types);
+    }
+    
+    private async Task<HttpResponseMessage> GetAllDataSourcesAsync()
+    {
+        var dataSources = await _localStorageService.GetItem<List<DataSource>>("dataSources");
+
+        return await OkAsync(dataSources);
     }
 
-    private async Task<HttpResponseMessage> Ok(object? body = null)
+    private async Task<HttpResponseMessage> OkAsync(object? body = null)
     {
-        return await JsonResponse(HttpStatusCode.OK, body ?? new { });
+        return await JsonResponseAsync(HttpStatusCode.OK, body ?? new { });
     }
 
-    private async Task<HttpResponseMessage> JsonResponse(HttpStatusCode statusCode, object content)
+    private static async Task<HttpResponseMessage> JsonResponseAsync(HttpStatusCode statusCode, object content)
     {
         var response = new HttpResponseMessage
         {

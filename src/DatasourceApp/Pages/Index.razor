@@ -1,75 +1,67 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components
-@using ApplicationCore.Models
 
-<PageTitle>Meta - OKR Datasources</PageTitle>
+<PageTitle>Meta - OKR DataSources</PageTitle>
 
+<h4>New DataSource</h4>
 
-<h4>New Datasource</h4>
+<EditForm Model="_newDataSource" OnValidSubmit="OnValidSubmit">
+    <div class="input-area mt-4">
+        <label for="DatasourceName">Name</label>
+        <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="_newDataSource.Name"/>
+    </div>
 
-@if (DatasourceTypes is not null)
-{
-    <EditForm Model="NewDatasource" OnValidSubmit="OnValidSubmit">
-        <div class="input-area mt-4">
-            <label for="DatasourceName">Name</label>
-            <InputText class="field border-primary p-4" id="DatasourceName" @bind-Value="NewDatasource.Name"/>
-        </div>
-    
-        <div class="input-area mt-4">
-            <label for="DatasourceType">Type</label>
-            <InputSelect class="field border-primary p-4" id="DatasourceType" @bind-Value="SelectedDatasourceTypeId">
-                @if (DatasourceTypes is not null)
-                {
-                    <option value="0" selected hidden>Select a datasource type...</option>
-                    @foreach (var type in DatasourceTypes)
-                    {
-                        <option value="@type.Id">@type.Name</option>
-                    }
-                }
-            </InputSelect>
-        </div>
-        
-        @if ((InputFieldsFrom = Fields()) is not null)
-        {
-            @foreach (var field in InputFieldsFrom)
+    <div class="input-area mt-4">
+        <label for="DatasourceType">Type</label>
+
+        <InputSelect class="field border-primary p-4" id="DatasourceType" @bind-Value="SelectedDatasourceTypeId">
+            
+            <option value="0" selected hidden>Select a datasource type...</option>
+            
+            @foreach (var type in DataSourceTypes)
             {
-                <div class="input-area mt-4">
-                    <label for="@field.Name">@field.Name</label>
-                    <InputText class="field border-primary p-4" id="@field.Name" Required="@field.Required" @bind-Value="field.Value" />
-                </div>
+                <option value="@type.Id">@type.Name</option>
             }
 
+        </InputSelect>
+    </div>
+
+    @if (SelectedDataSourceType?.Fields is not null)
+    {
+        @foreach (var inputSection in SelectedDataSourceType.Fields)
+        {
+            <fieldset class="p-4 border-solid border rounded bg-white border-base-300 mt-4">
+                <legend class="p-1">@inputSection.Name</legend>
+
+                @for (var k = 0; k < inputSection.Choices.Count; k++)
+                {
+                    var choice = inputSection.Choices[k];
+                    <div>
+                        <p class="h5">@choice.Name</p>
+                        @foreach(var field in choice.Fields)
+                        {
+                            <div class="input-area mt-4">
+                                <label for="@field.Name">@field.Name</label>
+                                <InputText class="field border-primary p-4"
+                                           id="@field.Name"
+                                           type="@field.InputType"
+                                           @bind-Value="@field.Value"
+                                           required="@field.Required"/>
+                            </div>
+                        }
+                    </div>
+                    
+                    if (k + 1 >= inputSection.Choices.Count)
+                    {
+                        continue;
+                    }
+                    <div class="bg-base-200 my-8 w-full h-0.5"></div>
+                }
+
+                <InputText class="field border-primary p-4" id="@inputSection.Name" Required="@inputSection.Required"/>
+            </fieldset>
         }
-        <div class="float-right mt-4">
-            <button class="btn-primary">Add Datasource</button>
-        </div>
-    </EditForm>
-}
-
-@code {
-    private List<DatasourceType>? DatasourceTypes { get; set; }
-
-    private int SelectedDatasourceTypeId { get; set; }
-
-    private List<InputField>? InputFieldsFrom { get; set; }
-
-    private List<InputField>? Fields()
-    {
-        return DatasourceTypes?.FirstOrDefault(f => f.Id == SelectedDatasourceTypeId)?.Fields;
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        DatasourceTypes = new();
-
-        await base.OnInitializedAsync();
-    }
-
-    private static void OnValidSubmit()
-    {
-        
-    }
-
-    private Datasource NewDatasource { get; set; } = new();
-
-}
+    <div class="float-right mt-4">
+        <button class="btn-primary">Add DataSource</button>
+    </div>
+</EditForm>
