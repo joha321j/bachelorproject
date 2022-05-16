@@ -14,7 +14,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   dotnetFramework: 'net6.0'
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/head/main')]
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 
 jobs:
 - job: build_frontend
