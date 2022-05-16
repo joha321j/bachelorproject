@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+    - main
+    - feature/*
+  paths:
+    include:
+      - src/*
+      - tests/*
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  dotnetFramework: 'net6.0'
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/head/main')]
+
+jobs:
+- job: build_frontend
+  displayName: "Frontend"
+
+  steps:
+  - template: devops/build-and-test.yml
+    parameters:
+      buildConfiguration: $(buildConfiguration)
+      projectName: 'DataSourceApp'
+
+- job: build_backend
+  displayName: "Backend"
+
+  steps:
+  - template: devops/build-and-test.yml
+    parameters:
+      buildConfiguration: $(buildConfiguration)
+      projectName: 'DataSourceGraphApi'
