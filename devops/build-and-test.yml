@@ -7,13 +7,6 @@ parameters:
     default: 'net6.0'
 
 steps:
-
-  - bash: |
-      echo "##[debug]Current path: $(pwd)"
-      echo "##[debug]Dir list: $(ls -la)"
-      echo "##[debug]Src list: $(ls -la src)"
-      echo "##[debug]Path: src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj"
-  
   - task: DotNetCoreCLI@2
     displayName: Restore NuGet packages
     inputs:
