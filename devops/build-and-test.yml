@@ -33,7 +33,7 @@ steps:
   
   - task: DotNetCoreCLI@2
     displayName: Dotnet Publish
-    condition: and(succeeded(), eq(parameters.isMain, 'true'))
+    condition: and(succeeded(), eq(variables.isMain, 'true'))
     inputs:
       command: publish
       projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
