@@ -12,6 +12,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{EE2EF885-D960-46FD-B649-F266A0905273}"
 	ProjectSection(SolutionItems) = preProject
 		tye.yml = tye.yml
+		devops\build-and-test.yml = devops\build-and-test.yml
+		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7141AED9-D5C4-4C81-80B6-538C78CB31B8}"

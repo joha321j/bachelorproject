@@ -1,0 +1,43 @@
+parameters:
+- name: buildConfiguration
+  default: 'Release'
+- name: projectName
+  default: 'none'
+- name: dotnetFramework
+  default: 'net6.0'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore NuGet packages
+  inputs:
+    command: restore
+    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+    arguments: '-c ${{ parameters.buildConfiguration }} -f $(dotnetFramework)'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    testRunTitle: '${{ parameters.projectName }}Tests'
+    command: test
+    projects: 'tests/${{ parameters.projectName }}*Tests/*.csproj'
+    arguments: '-c ${{ parameters.buildConfiguration }} -f $(dotnetFramework) --collect "XPlat Code coverage"'
+    publishTestResults: true
+
+- task: DotNetCoreCLI@2
+  displayName: Dotnet Publish
+  inputs:
+    command: publish
+    projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
+    arguments: '-c ${{ parameters.buildConfiguration }} -f $(dotnetFramework) -o $(Agent.BuildDirectory)/${{ parameters.projectName }}/publish --no-build'
+    publishWebProjects: false
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathToPublish: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/publish'
+    ArtifactName: ${{ parameters.projectName }}
