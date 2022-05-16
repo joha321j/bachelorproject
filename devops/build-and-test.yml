@@ -6,6 +6,9 @@ parameters:
   - name: dotnetFramework
     default: 'net6.0'
 
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/head/main')]
+
 steps:
   - task: DotNetCoreCLI@2
     displayName: Restore NuGet packages
@@ -31,6 +34,7 @@ steps:
   
   - task: DotNetCoreCLI@2
     displayName: Dotnet Publish
+    condition: and(succeeded(), eq(variables.isMain, 'true'))
     inputs:
       command: publish
       projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'
