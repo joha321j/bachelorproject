@@ -5,9 +5,8 @@ parameters:
     default: 'none'
   - name: dotnetFramework
     default: 'net6.0'
-
-variables:
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/head/main')]
+  - name: isMain
+    default: 'false'
 
 steps:
   - task: DotNetCoreCLI@2
@@ -34,7 +33,7 @@ steps:
   
   - task: DotNetCoreCLI@2
     displayName: Dotnet Publish
-    condition: and(succeeded(), eq(variables.isMain, 'true'))
+    condition: and(succeeded(), eq(${{ parameters.isMain }}, 'true'))
     inputs:
       command: publish
       projects: 'src/${{ parameters.projectName }}/${{ parameters.projectName }}.csproj'

@@ -14,6 +14,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   dotnetFramework: 'net6.0'
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/head/main')]
 
 jobs:
 - job: build_frontend
@@ -24,6 +25,7 @@ jobs:
     parameters:
       buildConfiguration: $(buildConfiguration)
       projectName: 'DataSourceApp'
+      isMain: $(isMain)
 
 - job: build_backend
   displayName: "Backend"
@@ -33,3 +35,4 @@ jobs:
     parameters:
       buildConfiguration: $(buildConfiguration)
       projectName: 'DataSourceGraphApi'
+      isMain: $(isMain)
