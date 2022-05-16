@@ -25,7 +25,6 @@ jobs:
     parameters:
       buildConfiguration: $(buildConfiguration)
       projectName: 'DataSourceApp'
-      isMain: $(isMain)
 
 - job: build_backend
   displayName: "Backend"
@@ -35,4 +34,3 @@ jobs:
     parameters:
       buildConfiguration: $(buildConfiguration)
       projectName: 'DataSourceGraphApi'
-      isMain: $(isMain)
