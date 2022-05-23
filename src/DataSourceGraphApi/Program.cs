@@ -1,6 +1,6 @@
 using DataFakingLibrary;
-using DatasourceGraphApi.GraphQL;
-using DatasourceGraphApi.GraphQL.ResolverClients;
+using DataSourceGraphApi.GraphQL;
+using DataSourceGraphApi.GraphQL.ResolverClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
