@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
-using DatasourceGraphApi.GraphQL.ResolverClients;
+using DataSourceGraphApi.GraphQL.ResolverClients;
 using Moq;
 using Moq.Contrib.HttpClient;
 

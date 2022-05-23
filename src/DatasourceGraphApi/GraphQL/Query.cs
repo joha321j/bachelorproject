@@ -1,9 +1,9 @@
 ﻿using ApplicationCore.Models.AppInsights.Events;
 using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
-using DatasourceGraphApi.GraphQL.ResolverClients;
+using DataSourceGraphApi.GraphQL.ResolverClients;
 
-namespace DatasourceGraphApi.GraphQL;
+namespace DataSourceGraphApi.GraphQL;
 
 public class Query
 {
@@ -37,4 +37,4 @@ public class Query
         return await _appInsightsResolverClient
             .ResolveEvents(appId, eventType, eventId, timeSpan);
     }
-}   
+}

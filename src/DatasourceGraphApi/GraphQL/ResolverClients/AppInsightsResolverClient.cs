@@ -3,7 +3,7 @@ using ApplicationCore.Models.AppInsights.Events;
 using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
 
-namespace DatasourceGraphApi.GraphQL.ResolverClients;
+namespace DataSourceGraphApi.GraphQL.ResolverClients;
 
 public class AppInsightsResolverClient
 {
@@ -40,7 +40,7 @@ public class AppInsightsResolverClient
 
         var first = true;
         if (parameters == null) return path;
-        
+
         foreach (KeyValuePair<string, string> pair in parameters)
         {
             if (first)
