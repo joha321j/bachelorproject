@@ -1,23 +1,23 @@
 trigger:
   branches:
     include:
-      - main
+    - main
   paths:
     include:
-      - src/*
-      - tests/*
+    - src/*
+    - tests/*
 
 pr:
   autoCancel: true
   branches:
     include:
-      - task/*
-      - feature/*
-      - hotfix/*
+    - task/*
+    - feature/*
+    - hotfix/*
   paths:
     include:
-      - src/*
-      - tests/*
+    - src/*
+    - tests/*
 
 pool: 
   vmImage: 'ubuntu-latest'
