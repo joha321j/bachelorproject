@@ -33,7 +33,7 @@ builder.Services
 builder.Services.AddScoped(serviceProvider =>
 {
     var apiUrl = new Uri(uriString: builder.Configuration.GetSection("ApiUrl").Value)
-                         ?? throw new ArgumentNullException();
+                 ?? throw new ArgumentNullException();
 
     if (builder.Configuration["UseFakeBackend"] != "true")
         return new HttpClient { BaseAddress = apiUrl };

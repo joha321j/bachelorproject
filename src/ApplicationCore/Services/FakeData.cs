@@ -1,4 +1,7 @@
-﻿using ApplicationCore.Models;
+using ApplicationCore.Models;
+using ApplicationCore.Models.AppInsights.Events;
+using ApplicationCore.Models.AppInsights.Metrics;
+using ApplicationCore.Models.AppInsights.Queries;
 
 namespace ApplicationCore.Services;
 
@@ -61,6 +64,36 @@ public static class FakeData
                 }
             }
         }
+    };
+
+    public static QueryResults QueryResults => new(new List<Table>
+    {
+        new("TestTable", 
+            new List<Column>
+            {
+                new("TestColumn", "Name")
+            },
+            new List<IList<string>>
+            {
+                new List<string>
+                {
+                    "TestRow"
+                },
+                new List<string>
+                {
+                    "BestRow"
+                }
+            })
+    });
+
+    public static MetricsResult MetricsResults => new()
+    {
+        Value = new MetricsResultInfo()
+    };
+
+    public static EventsResults EventsResults => new()
+    {
+
     };
 
     public static List<DataSourceType> DataSourceTypes => DataSources

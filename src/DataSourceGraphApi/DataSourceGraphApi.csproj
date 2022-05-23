@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+    <ProjectReference Include="..\DataFakingLibrary\DataFakingLibrary.csproj" />
   </ItemGroup>
 
 </Project>

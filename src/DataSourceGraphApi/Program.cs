@@ -1,6 +1,25 @@
+using DataFakingLibrary;
+using DataSourceGraphApi.GraphQL;
+using DataSourceGraphApi.GraphQL.ResolverClients;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<AppInsightsResolverClient>();
+builder.Services.AddHttpClient("AppInsights", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AppInsightsUrl"]);
+}).ConfigurePrimaryHttpMessageHandler(
+    () => builder.Configuration["UseFakeBackend"] == "true" ? new FakeInsightHandler() : new HttpClientHandler());
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>();
+
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseRouting()
+    .UseEndpoints(endpoints =>
+    {
+        endpoints.MapGraphQL();
+    });
 
 app.Run();
