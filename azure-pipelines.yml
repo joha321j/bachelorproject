@@ -1,8 +1,19 @@
 trigger:
   branches:
     include:
-    - main
-    - feature/*
+      - main
+  paths:
+    include:
+      - src/*
+      - tests/*
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+      - task/*
+      - feature/*
+      - hotfix/*
   paths:
     include:
       - src/*
