@@ -55,3 +55,11 @@ catch (Exception e)
     Log.Fatal(e, "An exception occurred while creating the WASM host");
     throw;
 }
+
+namespace DataSourceApp
+{
+    public class Program
+    {
+        
+    }
+}

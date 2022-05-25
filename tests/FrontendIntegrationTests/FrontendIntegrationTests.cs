@@ -4,23 +4,26 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ApplicationCore.Models;
-using DataSourceApp.ApiContracts;
+using DataSourceApp.Services;
+using DataSourceGraphApi.GraphQL.ResolverClients;
 using Xunit;
+using FrontendIntegrationTests;
 using FluentAssertions;
 
 namespace DataSourceGraphApiIntegrationTests;
 
-public class FrontendIntegrationTests : ClientSetup
+public class FrontendIntegrationTests
 {
-
-    public FrontendIntegrationTests() : base(collection => collection)
+    private AppInsightsResolverClient insight;
+    public FrontendIntegrationTests()
     {
     }
     
     [Fact]
-    public async Task AsList_returns_list_when_asked_for_single_item()
+    public async Task ResolveQuery_returns_expected_value()
     {
-        var dataSource = new DataSource
+        
+        /*var dataSource = new DataSource
         {
             Name = "TestName",
             DataSourceType = new DataSourceType
@@ -29,19 +32,19 @@ public class FrontendIntegrationTests : ClientSetup
                 Name = "Azure App Insights",
                 Fields = new List<InputSection>()
             }
-        };
-
+        };*/
         var response = new HttpResponseMessage(HttpStatusCode.OK);
-        response.Content = new StringContent(JsonSerializer.Serialize(dataSource));
+        response.Content = new StringContent(JsonSerializer.Serialize(insight));
 
-        var client = new FakeHttpClient(response);
+        var client = new HttpClient();
         
-        
-        var request = new Request
-        {
-            RequestMethod = async () => await Task.FromResult(response)
-        };
-        
+        HttpService service = new HttpService(client, new LocalStorageService(null));
+
+        var sut = service.PostAsync<AppInsightsResolverClient>(client.BaseAddress.AbsoluteUri, insight);
+
+        var result = await sut.Result.ResolveQuery("1", "Hej");
+
+        result.Should().BeEquivalentTo("Hej");
     }
 
    

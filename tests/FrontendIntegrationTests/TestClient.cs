@@ -2,8 +2,9 @@ using System;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DataSourceApp;
 
-namespace DataSourceGraphApiIntegrationTests;
+namespace FrontendIntegrationTests;
 
 public class TestClient : WebApplicationFactory<DataSourceApp.Program>
 {
