@@ -1,12 +1,14 @@
 using System;
+using Castle.Core.Configuration;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DataSourceApp;
+using Moq;
 
 namespace FrontendIntegrationTests;
 
-public class TestClient : WebApplicationFactory<DataSourceApp.Program>
+public class TestClient : WebApplicationFactory<Program>
 {
     private readonly Func<IServiceCollection, IServiceCollection> _setupMockServices;
 
