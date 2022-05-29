@@ -30,7 +30,8 @@ public class FrontendIntegrationTests
     [Fact]
     public async Task ResolveQuery_returns_expected_value()
     {
-        DocumentNode query = "Hello"; 
+        string query = "Hello"; 
+        
         GraphQLRequest request = new GraphQLRequest
         {
             Query = query
