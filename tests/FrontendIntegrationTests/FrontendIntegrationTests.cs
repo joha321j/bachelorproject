@@ -40,17 +40,10 @@ public class FrontendIntegrationTests
     [Fact]
     public async Task ResolveQuery_returns_expected_value()
     {
-        var query = @"
-                query queryResults(appId: ""asdasd"", queryParam: ""asdasd"") {
-                    tables{
-                       columns{
-                           name
-                               }
-                           }
-                 }";
-
-        var result = await httpService.PostAsync<object>("/graphQL", query);
+        var request = "{\"query\": \"queryResults($appId: ID!, $queryParam: QUERYPARAM!){tables{columns{name}}}\", " +
+                      "\"variables\": {\"appId\": \"asdasd\", \"queryParam\": \"asdasd\"}";
+        
+        var result = await httpService.PostAsync<object>("/graphQL", request);
         result.Should().NotBeNull();
-
     }
 }
