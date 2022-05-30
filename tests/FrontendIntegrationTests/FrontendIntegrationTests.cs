@@ -27,13 +27,11 @@ namespace DataSourceGraphApiIntegrationTests;
 public class FrontendIntegrationTests
 {
     private HttpService httpService;
-    private Uri baseAddress;
     private DocumentNode docNode;
     public FrontendIntegrationTests()
     {
         var factory = new DataSourceGraphApiTestClientFactory();
         var client = factory.CreateClient();
-        baseAddress = client.BaseAddress;
         httpService = new HttpService(client, new Mock<ILocalStorageService>().Object);
     }
     
