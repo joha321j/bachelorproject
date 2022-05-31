@@ -31,6 +31,10 @@ public class FrontendIntegrationTests
 
         var result = await _httpService.PostAsync<DataPackage<QueryResult>>("/graphQL", request);
 
+        var columnName = result.Data.QueryResults.Tables[0].Columns[0].Name;
+
         result.Should().NotBeNull();
+
+        columnName.Should().BeEquivalentTo("TestColumn");
     }
 }
