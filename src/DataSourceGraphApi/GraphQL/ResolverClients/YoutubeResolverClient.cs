@@ -6,17 +6,19 @@ namespace DataSourceGraphApi.GraphQL.ResolverClients;
 public class YoutubeResolverClient
 {
     private readonly IHttpClientFactory _clientFactory;
+    private readonly string _apiKey;
 
     public YoutubeResolverClient(IHttpClientFactory clientFactory)
     {
         _clientFactory = clientFactory;
+        _apiKey = "AIzaSyDO2bM_WXSmnCsSnwqIOwepp9NQTXWaYyg";
     }
     
-    public async Task<Comments?> ResolveComment(string query)
+    public async Task<SearchResults?> ResolveSearchResult(string searchKeyword)
     {
-        var path = $"{appId}/query?query={query}";
+        var path = $"search?part=snippet&maxResults=25&q={searchKeyword}&key={_apiKey}";
         var client = _clientFactory.CreateClient("Youtube");
-        return await client.GetFromJsonAsync<Comments>(path);
+        return await client.GetFromJsonAsync<SearchResults>(path);
     }
 
 }

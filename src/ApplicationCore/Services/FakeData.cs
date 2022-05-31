@@ -102,52 +102,31 @@ public static class FakeData
         .DistinctBy(d => d.Name)
         .ToList();
 
-    public static List<Comments> Comments => new(new List<Comments>
+    public static SearchResults SearchResults => new()
     {
-        new()
-        {
-            Id = 1,
-            Kind = "Sport",
+            Etag = "sadasd",
+            Id = new Id
+            {
+                ChannelId = "sadad",
+                Kind = "sadasd",
+                PlaylistId = "asdasd",
+                VideoId = "asdasd"
+            },
+            Kind = "sadasd",
             Snippet = new Snippet
             {
-                AuthorChannelId = new AuthorChannelId
+                ChannelId = "asdsda",
+                ChannelTitle = "sadsdas",
+                Description = "asdasd",
+                LiveBroadcastContent = "asdasd",
+                PublishedAt = "asdasd",
+                Thumbnails = new Thumbnails
                 {
-                    Value = 1
+                    Height = 10,
+                    Url = "sadasd",
+                    Width = 20
                 },
-                AuthorChannelUrl = "AuthorChannelTestUrl",
-                AuthorDisplayName = "NewAuthor",
-                AuthorProfileImageUrl = "TestImageUrl",
-                CanRate = true,
-                ChannelId = 1,
-                LikeCount = 2000,
-                ModerationStatus = "Modded",
-                ParentId = 1,
-                PublishedAt = "2015-06-02 23:33:90",
-                UpdatedAt = "2015-06-02 23:33:90"
+                Title = "asdasdas"
             }
-
-        },
-        new()
-        {
-            Id = 2,
-            Kind = "Art",
-            Snippet = new Snippet
-            {
-                AuthorChannelId = new AuthorChannelId
-                {
-                    Value = 2
-                },
-                AuthorChannelUrl = "AuthorChannelTestUrl2",
-                AuthorDisplayName = "NewAuthor2",
-                AuthorProfileImageUrl = "2",
-                CanRate = true,
-                ChannelId = 2,
-                LikeCount = 50,
-                ModerationStatus = "Modded2",
-                ParentId = 2,
-                PublishedAt = "2015-06-02 23:33:90",
-                UpdatedAt = "2015-06-02 23:33:90"
-            }
-        }
-    });
+    };
 }

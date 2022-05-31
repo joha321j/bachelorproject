@@ -31,14 +31,14 @@ public class FakeYoutubeHandler : HttpClientHandler
 
         return paths[4] switch
         {
-            "comments" => await GetCommentsData(),
+            "searchResults" => await GetSearchResultData(),
             _ => await base.SendAsync(request, cancellationToken)
         };
     }
     
-    private async Task<HttpResponseMessage> GetCommentsData()
+    private async Task<HttpResponseMessage> GetSearchResultData()
     {
-        var data = FakeData.Comments;
+        var data = FakeData.SearchResults;
 
         return await Ok(data);
     }
