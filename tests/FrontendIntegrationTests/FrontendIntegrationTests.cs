@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection.Metadata;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml;
 using ApplicationCore.Models;
+using ApplicationCore.Models.AppInsights.Queries;
 using DataSourceApp.Services;
 using DataSourceGraphApi.GraphQL;
 using DataSourceGraphApi.GraphQL.ResolverClients;
@@ -38,10 +40,16 @@ public class FrontendIntegrationTests
     [Fact]
     public async Task ResolveQuery_returns_expected_value()
     {
-        var request = "{\"query\": \"queryResults($appId: ID!, $queryParam: QUERYPARAM!){tables{columns{name}}}\", " +
-                      "\"variables\": {\"appId\": \"asdasd\", \"queryParam\": \"asdasd\"}";
+        var request = new
+        {
+            query = "query($appId: String!, $queryParam: String!){queryResults(appId: $appId, queryParam: $queryParam){tables{columns{name type}rows}}}",
+            variables = new { appId = "test", queryParam = "test" }
+        };
         
-        var result = await httpService.PostAsync<object>("/graphQL", request);
+        var result = await httpService.PostAsync<JsonObject>("/graphQL", request);
+        var query = result["data"];
+        var tables = query["queryResults"]["tables"][0]["columns"].Deserialize<List<Column>>();
         result.Should().NotBeNull();
+
     }
 }

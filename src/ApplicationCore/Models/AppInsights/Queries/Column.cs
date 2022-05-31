@@ -8,7 +8,7 @@
 namespace ApplicationCore.Models.AppInsights.Queries
 {
     /// <summary> A column in a table. </summary>
-    public partial class Column
+    public class Column
     {
         /// <summary> Initializes a new instance of Column. </summary>
         internal Column()
@@ -25,8 +25,8 @@ namespace ApplicationCore.Models.AppInsights.Queries
         }
 
         /// <summary> The name of this column. </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary> The data type of this column. </summary>
-        public string Type { get; }
+        public string Type { get; set; }
     }
 }

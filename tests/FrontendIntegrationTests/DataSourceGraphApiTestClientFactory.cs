@@ -7,7 +7,7 @@ public class DataSourceGraphApiTestClientFactory : WebApplicationFactory<DataSou
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        builder.UseEnvironment("IntegrationTest");
+        builder.UseEnvironment("Development");
         return base.CreateHost(builder);
     }
 }
