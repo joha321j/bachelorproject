@@ -2,6 +2,7 @@ using ApplicationCore.Models;
 using ApplicationCore.Models.AppInsights.Events;
 using ApplicationCore.Models.AppInsights.Metrics;
 using ApplicationCore.Models.AppInsights.Queries;
+using ApplicationCore.Models.Youtube;
 
 namespace ApplicationCore.Services;
 
@@ -100,4 +101,53 @@ public static class FakeData
         .Select(d => d.DataSourceType)
         .DistinctBy(d => d.Name)
         .ToList();
+
+    public static List<Comments> Comments => new(new List<Comments>
+    {
+        new()
+        {
+            Id = 1,
+            Kind = "Sport",
+            Snippet = new Snippet
+            {
+                AuthorChannelId = new AuthorChannelId
+                {
+                    Value = 1
+                },
+                AuthorChannelUrl = "AuthorChannelTestUrl",
+                AuthorDisplayName = "NewAuthor",
+                AuthorProfileImageUrl = "TestImageUrl",
+                CanRate = true,
+                ChannelId = 1,
+                LikeCount = 2000,
+                ModerationStatus = "Modded",
+                ParentId = 1,
+                PublishedAt = "2015-06-02 23:33:90",
+                UpdatedAt = "2015-06-02 23:33:90"
+            }
+
+        },
+        new()
+        {
+            Id = 2,
+            Kind = "Art",
+            Snippet = new Snippet
+            {
+                AuthorChannelId = new AuthorChannelId
+                {
+                    Value = 2
+                },
+                AuthorChannelUrl = "AuthorChannelTestUrl2",
+                AuthorDisplayName = "NewAuthor2",
+                AuthorProfileImageUrl = "2",
+                CanRate = true,
+                ChannelId = 2,
+                LikeCount = 50,
+                ModerationStatus = "Modded2",
+                ParentId = 2,
+                PublishedAt = "2015-06-02 23:33:90",
+                UpdatedAt = "2015-06-02 23:33:90"
+            }
+        }
+    });
 }

@@ -11,6 +11,13 @@ builder.Services.AddHttpClient("AppInsights", client =>
 }).ConfigurePrimaryHttpMessageHandler(
     () => builder.Configuration["UseFakeBackend"] == "true" ? new FakeInsightHandler() : new HttpClientHandler());
 
+builder.Services.AddScoped<YoutubeResolverClient>();
+builder.Services.AddHttpClient("Youtube", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["YoutubeUrl"]);
+}).ConfigurePrimaryHttpMessageHandler(
+    () => builder.Configuration["UseFakeBackend"] == "true" ? new FakeYoutubeHandler() : new HttpClientHandler());
+
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>();
 
