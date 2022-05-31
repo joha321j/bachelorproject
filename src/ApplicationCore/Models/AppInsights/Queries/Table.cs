@@ -15,22 +15,15 @@ namespace ApplicationCore.Models.AppInsights.Queries
         public Table()
         {
         }
-        /// <summary> Initializes a new instance of Table. </summary>
-        /// <param name="name"> The name of the table. </param>
-        /// <param name="columns"> The list of columns in this table. </param>
-        /// <param name="rows"> The resulting rows from this query. </param>
-        public Table(string name, List<Column> columns, List<IList<string>> rows)
-        {
-            Name = name;
-            Columns = columns;
-            Rows = rows;
-        }
 
         /// <summary> The name of the table. </summary>
+        [JsonPropertyName("name")]
         public string Name { get; set; }
         /// <summary> The list of columns in this table. </summary>
+        [JsonPropertyName("columns")]
         public List<Column> Columns { get; set; }
         /// <summary> The resulting rows from this query. </summary>
+        [JsonPropertyName("rows")]
         public List<IList<string>> Rows { get; set; }
     }
 }

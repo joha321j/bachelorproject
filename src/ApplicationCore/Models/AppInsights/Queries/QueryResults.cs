@@ -15,14 +15,9 @@ namespace ApplicationCore.Models.AppInsights.Queries
         public QueryResults()
         {
         }
-        /// <summary> Initializes a new instance of QueryResults. </summary>
-        /// <param name="tables"> The list of tables, columns and rows. </param>
-        public QueryResults(List<Table> tables)
-        {
-            Tables = tables;
-        }
 
         /// <summary> The list of tables, columns and rows. </summary>
+        [JsonPropertyName("tables")]
         public List<Table> Tables { get; set; }
     }
 }
