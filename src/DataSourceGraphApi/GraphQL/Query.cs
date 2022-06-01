@@ -41,7 +41,7 @@ public class Query
             .ResolveEvents(appId, eventType, eventId, timeSpan);
     }
 
-    public async Task<SearchResults?> getSearchResults(string searchKeyword)
+    public async Task<SearchResults?> GetSearchResults(string searchKeyword)
     {
         return await _youtubeResolverClient
             .ResolveSearchResult(searchKeyword);
