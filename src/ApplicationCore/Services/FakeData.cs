@@ -67,25 +67,33 @@ public static class FakeData
         }
     };
 
-    public static QueryResults QueryResults => new(new List<Table>
+    public static QueryResults QueryResults => new()
     {
-        new("TestTable", 
-            new List<Column>
-            {
-                new("TestColumn", "Name")
-            },
-            new List<IList<string>>
-            {
-                new List<string>
+        Tables = new List<Table>
+        {
+            new(){
+                Name = "TestTable",
+                Columns = new List<Column>
                 {
-                    "TestRow"
+                    new()
+                    {
+                        Name = "TestColumn",
+                        Type = "Name"
+                    }
                 },
-                new List<string>
+                Rows = new List<IList<string>>
                 {
-                    "BestRow"
-                }
-            })
-    });
+                    new List<string>
+                    {
+                        "TestRow"
+                    },
+                    new List<string>
+                    {
+                        "BestRow"
+                    }
+                }}
+        }
+    };
 
     public static MetricsResult MetricsResults => new()
     {

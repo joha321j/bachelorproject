@@ -30,3 +30,11 @@ app.UseRouting()
     });
 
 app.Run();
+
+namespace DataSourceGraphApi
+{
+    public class Program
+    {
+        
+    }
+}

@@ -127,8 +127,18 @@ public class HttpService : IHttpService
         {
             case false when response.Content.Headers.ContentLength > 0:
             {
-                var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-                throw new HttpRequestException(error?["message"]);
+                string errorMessage;
+                try
+                {
+                    var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                    errorMessage = error?["message"] ?? await response.Content.ReadAsStringAsync();
+                }
+                catch (JsonException)
+                {
+                    errorMessage = await response.Content.ReadAsStringAsync();
+                }
+                
+                throw new HttpRequestException(errorMessage);
             }
             
             case false:
