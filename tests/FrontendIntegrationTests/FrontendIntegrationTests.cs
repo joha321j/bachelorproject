@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
 using ApplicationCore.Models;
-using ApplicationCore.Models.AppInsights.Queries;
 using DataSourceApp.Services;
 using FluentAssertions;
-using HotChocolate.Language;
 using Moq;
 using Xunit;
 using QueryResult = ApplicationCore.Models.AppInsights.Queries.QueryResult;
