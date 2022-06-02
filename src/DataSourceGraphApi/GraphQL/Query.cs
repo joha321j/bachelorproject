@@ -40,10 +40,11 @@ public class Query
         return await _appInsightsResolverClient
             .ResolveEvents(appId, eventType, eventId, timeSpan);
     }
-
-    public async Task<SearchResults?> GetSearchResults(string searchKeyword)
+    public async Task<List<Search>?> GetSearchResults(string searchKeyword)
     {
         return await _youtubeResolverClient
             .ResolveSearchResult(searchKeyword);
     }
+
+    
 }

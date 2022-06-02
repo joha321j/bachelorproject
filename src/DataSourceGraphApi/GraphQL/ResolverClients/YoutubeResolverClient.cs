@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Models.AppInsights.Queries;
-using ApplicationCore.Models.Youtube;
+﻿using ApplicationCore.Models.Youtube;
 
 namespace DataSourceGraphApi.GraphQL.ResolverClients;
 
@@ -14,11 +13,11 @@ public class YoutubeResolverClient
         _apiKey = "AIzaSyDO2bM_WXSmnCsSnwqIOwepp9NQTXWaYyg";
     }
     
-    public async Task<SearchResults?> ResolveSearchResult(string searchKeyword)
+    public async Task<List<Search>?> ResolveSearchResult(string searchKeyword)
     {
-        var path = $"search?part=snippet&maxResults=25&q={searchKeyword}&key={_apiKey}";
+        var path = $"search?maxResults=25&q={searchKeyword}&key={_apiKey}";
         var client = _clientFactory.CreateClient("Youtube");
-        return await client.GetFromJsonAsync<SearchResults>(path);
+        return await client.GetFromJsonAsync<List<Search>>(path);
     }
 
 }

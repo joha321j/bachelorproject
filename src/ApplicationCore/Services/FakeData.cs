@@ -110,17 +110,19 @@ public static class FakeData
         .DistinctBy(d => d.Name)
         .ToList();
 
-    public static SearchResults SearchResults => new()
+    public static List<Search> Searches => new()
     {
+        new Search
+        {
             Etag = "sadasd",
             Id = new Id
             {
                 ChannelId = "sadad",
-                Kind = "sadasd",
+                Kind = "testKind",
                 PlaylistId = "asdasd",
                 VideoId = "asdasd"
             },
-            Kind = "sadasd",
+            Kind = "TestKind",
             Snippet = new Snippet
             {
                 ChannelId = "asdsda",
@@ -136,5 +138,34 @@ public static class FakeData
                 },
                 Title = "asdasdas"
             }
+        },
+        new Search
+        {
+            Etag = "234567",
+            Id = new Id
+            {
+                ChannelId = "45",
+                Kind = "56",
+                PlaylistId = "4567",
+                VideoId = "4567"
+            },
+            Kind = "TestKind2",
+            Snippet = new Snippet
+            {
+                ChannelId = "4567",
+                ChannelTitle = "4567",
+                Description = "4567",
+                LiveBroadcastContent = "4567",
+                PublishedAt = "456",
+                Thumbnails = new Thumbnails
+                {
+                    Height = 10,
+                    Url = "5678",
+                    Width = 20
+                },
+                Title = "4567"
+            }
+        }
+            
     };
 }

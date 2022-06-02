@@ -29,16 +29,16 @@ public class FakeYoutubeHandler : HttpClientHandler
             !paths[2].Equals("v3"))
             return await base.SendAsync(request, cancellationToken);
 
-        return paths[4] switch
+        return paths[3] switch
         {
-            "searchResults" => await GetSearchResultData(),
+            "search" => await GetSearchResultData(),
             _ => await base.SendAsync(request, cancellationToken)
         };
     }
     
     private async Task<HttpResponseMessage> GetSearchResultData()
     {
-        var data = FakeData.SearchResults;
+        var data = FakeData.Searches;
 
         return await Ok(data);
     }
