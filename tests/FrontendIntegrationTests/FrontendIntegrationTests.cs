@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using ApplicationCore.Models;
+using ApplicationCore.Models.Youtube;
 using DataSourceApp.Services;
 using FluentAssertions;
 using Moq;
@@ -19,7 +23,7 @@ public class FrontendIntegrationTests
     }
 
     [Fact]
-    public async Task ResolveQuery_returns_expected_value()
+    public async Task AppInsights_ResolveQuery_returns_expected_value()
     {
         var request = new
         {
@@ -34,5 +38,23 @@ public class FrontendIntegrationTests
         result.Should().NotBeNull();
 
         columnName.Should().BeEquivalentTo("TestColumn");
+    }
+    
+    [Fact]
+    public async Task Youtube_SearchResults_returns_expected_value()
+    {
+        var request = new
+        {
+            query = "query{searchResults(searchKeyword: \"Surfing\"){kind}}"
+        };
+
+        var result = await _httpService.PostAsync<DataPackage<SearchResults>>("/graphQL", request);
+
+        
+        var kind = result.Data.Search.FirstOrDefault().Kind;
+
+        result.Should().NotBeNull();
+        kind.Should().Be("TestKind");
+
     }
 }
